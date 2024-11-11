@@ -139,6 +139,14 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0.98489034
       objectReference: {fileID: 0}
+    - target: {fileID: 1133066494, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1133066495, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5, type: 3}
+      propertyPath: m_Mass
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1133066495, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5, type: 3}
       propertyPath: m_Constraints
       value: 4
@@ -323,7 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  jumpForce: 25
+  jumpForce: 100
 --- !u!1 &2025702439
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,7 +345,7 @@ GameObject:
   - component: {fileID: 2025702443}
   m_Layer: 3
   m_Name: Platform
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

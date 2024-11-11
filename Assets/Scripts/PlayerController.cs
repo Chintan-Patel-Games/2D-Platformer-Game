@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce;
     private Animator playerAnimator;
     private Rigidbody2D rd2d;
+    private bool isGrounded = false;
 
     private void Awake()
     {
@@ -16,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public void Update()
     {
         float moveSpeed = Input.GetAxisRaw("Horizontal");
-        bool jump = Input.GetKeyDown("Jump");
+        bool jump = Input.GetKeyDown(KeyCode.Space);
         bool crouch = Input.GetKey(KeyCode.LeftControl);
 
         MoveCharacter(moveSpeed, jump);
@@ -31,10 +32,20 @@ public class PlayerController : MonoBehaviour
         transform.position = movePos;
 
         // Jump Player position
-        if (jump)
+        if (jump && !isGrounded)
         {
             rd2d.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Force);
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.transform.tag == "platform") { isGrounded = true; }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.transform.tag == "platform") { isGrounded = false; }
     }
 
     private void MoveAnimation(float moveSpeed, bool jump, bool crouch)
