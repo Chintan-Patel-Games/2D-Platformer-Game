@@ -2,42 +2,71 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] Animator animator;
+    [SerializeField] private float speed;
+    [SerializeField] private float jumpForce;
+    private Animator playerAnimator;
+    private Rigidbody2D rd2d;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        PlayerMoveControls();
-        PlayerCrouchControl();
+        playerAnimator = gameObject.GetComponent<Animator>();
+        rd2d = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    private void PlayerMoveControls()
+    public void Update()
     {
-        float speed = Input.GetAxisRaw("Horizontal");
-        animator.SetFloat("Speed", Mathf.Abs(speed));
+        float moveSpeed = Input.GetAxisRaw("Horizontal");
+        bool jump = Input.GetKeyDown("Jump");
+        bool crouch = Input.GetKey(KeyCode.LeftControl);
 
+        MoveCharacter(moveSpeed, jump);
+        MoveAnimation(moveSpeed, jump, crouch);
+    }
+
+    private void MoveCharacter(float moveSpeed, bool jump)
+    {
+        // Move Player position
+        Vector3 movePos = transform.position;
+        movePos.x += moveSpeed * speed * Time.deltaTime;
+        transform.position = movePos;
+
+        // Jump Player position
+        if (jump)
+        {
+            rd2d.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Force);
+        }
+    }
+
+    private void MoveAnimation(float moveSpeed, bool jump, bool crouch)
+    {
+        // Moving the Player animation
+        playerAnimator.SetFloat("Speed", Mathf.Abs(moveSpeed));
+
+        // Flipping the player animation
         Vector3 scale = transform.localScale;
-
-        if (speed < 0)
+        if (moveSpeed < 0)
         {
             scale.x = -1f * Mathf.Abs(scale.x);
         }
-        else if (speed > 0)
+        else if (moveSpeed > 0)
         {
             scale.x = Mathf.Abs(scale.x);
         }
         transform.localScale = scale;
+
+        // Jump animation
+        if (jump)
+            playerAnimator.SetTrigger("Jump");
+
+        // Crouch animation
+        if (crouch)
+            Crouch(true);
+        else
+            Crouch(false);
     }
 
-    private void PlayerCrouchControl()
+    public void Crouch(bool crouch)
     {
-        if (Input.GetKey(KeyCode.C))
-        {
-            animator.SetBool("Crouch", true);
-        }
-        else
-        {
-            animator.SetBool("Crouch", false);
-        }
+        playerAnimator.SetBool("Crouch", crouch);
     }
 }
