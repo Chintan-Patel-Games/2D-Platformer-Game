@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public ScoreController scoreController;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     private Animator playerAnimator;
@@ -23,7 +25,6 @@ public class PlayerController : MonoBehaviour
         MoveCharacter(moveSpeed, jump);
         MoveAnimation(moveSpeed, jump, crouch);
     }
-
 
     private void MoveCharacter(float moveSpeed, bool jump)
     {
@@ -80,5 +81,11 @@ public class PlayerController : MonoBehaviour
     public void Crouch(bool crouch)
     {
         playerAnimator.SetBool("Crouch", crouch);
+    }
+
+    public void PickKey()
+    {
+        Debug.Log("Player Picked up the key");
+        scoreController.IncreaseScore(10);
     }
 }
