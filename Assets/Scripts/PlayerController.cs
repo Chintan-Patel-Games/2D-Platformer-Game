@@ -24,11 +24,6 @@ public class PlayerController : MonoBehaviour
         MoveAnimation(moveSpeed, jump, crouch);
     }
 
-    private void OnCollisionStay2D(Collision2D other)
-    {
-        if (other.transform.tag == "platform") { isGrounded = true; }
-        Debug.Log("Player is standing");
-    }
 
     private void MoveCharacter(float moveSpeed, bool jump)
     {
@@ -41,14 +36,17 @@ public class PlayerController : MonoBehaviour
         if (jump && isGrounded)
         {
             rd2d.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Force);
-            Debug.Log("Player has jump");
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.transform.tag == "platform") { isGrounded = true; Debug.Log("Player is in contact with ground"); }
     }
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        if (other.transform.tag == "platform") { isGrounded = false; }
-        Debug.Log("Player jumped");
+        if (other.transform.tag == "platform") { isGrounded = false; Debug.Log("Player is not in contact with ground"); }
     }
 
     private void MoveAnimation(float moveSpeed, bool jump, bool crouch)
