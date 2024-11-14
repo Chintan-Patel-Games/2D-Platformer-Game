@@ -9,9 +9,8 @@ public class Pitfall : MonoBehaviour
         {
             // Debug.Log("You Died");
             // Time.timeScale = 0;
-            
-            int currentSceneIndex = SceneManager.GetActiveScene( ).buildIndex;
-            SceneManager.LoadScene( currentSceneIndex );
+
+            other.gameObject.GetComponent<PlayerController>().KillPlayer();
         }
     }
 }
