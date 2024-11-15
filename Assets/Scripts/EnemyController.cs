@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public PlayerController playerController;
     public GameObject pointA;
     public GameObject pointB;
     private Rigidbody2D rb;
@@ -19,7 +20,7 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        Vector2 point = currentPoint.position - transform.position;
+        // Vector2 point = currentPoint.position - transform.position;
         if (currentPoint.transform == pointB.transform)
         {
             rb.velocity = new Vector2(speed, 0);
@@ -49,12 +50,12 @@ public class EnemyController : MonoBehaviour
         transform.localScale = localScale;
     }
 
-    // private void OnTriggerEnter2D(Collider2D other)
-    // {
-    //     if (other.gameObject.GetComponent<PlayerController>() != null)
-    //     {
-    //         PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
-    //         playerController.KillPlayer();
-    //     }
-    // }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.GetComponent<PlayerController>() != null)
+        {
+            playerController = other.gameObject.GetComponent<PlayerController>();
+            playerController.TakeLives();
+        }
+    }
 }
