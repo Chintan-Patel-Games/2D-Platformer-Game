@@ -111,6 +111,13 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             playerAnimator.SetBool("isGrounded", true);
         }
+
+        if (other.collider.CompareTag("Platform") && playerAnimator.GetBool("isFalling") == true)
+        {
+            isGrounded = true;
+            playerAnimator.SetBool("isFalling", false);
+            playerAnimator.SetBool("isGrounded", true);
+        }
     }
 
     private void OnCollisionExit2D(Collision2D other)
@@ -118,6 +125,13 @@ public class PlayerController : MonoBehaviour
         if (other.collider.CompareTag("Platform"))
         {
             isGrounded = false;
+            playerAnimator.SetBool("isGrounded", false);
+        }
+
+        if (other.collider.CompareTag("Platform") && playerAnimator.GetBool("isFalling") == false)
+        {
+            isGrounded = false;
+            playerAnimator.SetBool("isFalling", true);
             playerAnimator.SetBool("isGrounded", false);
         }
     }
