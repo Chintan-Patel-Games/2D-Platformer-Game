@@ -2,32 +2,30 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public PlayerController playerController;
+    public float moveSpeed;
     public GameObject pointA;
     public GameObject pointB;
-    private Rigidbody2D rb;
-    private Animator anim;
     private Transform currentPoint;
-    public float speed;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        anim.SetBool("isWalking", true);
         currentPoint = pointB.transform;
     }
 
     private void Update()
     {
-        // Vector2 point = currentPoint.position - transform.position;
+        EnemyPatrol();
+    }
+
+    private void EnemyPatrol()
+    {
         if (currentPoint.transform == pointB.transform)
         {
-            rb.velocity = new Vector2(speed, 0);
+            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         }
         else
         {
-            rb.velocity = new Vector2(-speed, 0);
+            transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
         }
 
         if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointB.transform)
@@ -54,8 +52,7 @@ public class EnemyController : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
-            playerController = other.gameObject.GetComponent<PlayerController>();
-            playerController.TakeLives();
+            other.gameObject.GetComponent<PlayerController>().TakeLives();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,16 +11,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Image live1;
     [SerializeField] private Image live2;
     [SerializeField] private Image live3;
+    [SerializeField] private GameObject deathUIPanel;
     private Animator playerAnimator;
+    private Camera mainCamera;
     private Rigidbody2D rd2d;
-    private bool isGrounded = true;
+    private SpriteRenderer spriteRenderer;
+    private bool isFalling = true;
+    private bool isGrounded = false;
     private bool isCrouching = false;
+    private bool isFacingRight = true;
+    private bool isDead = false;
     private int lives = 3;
 
     private void Awake()
     {
         playerAnimator = gameObject.GetComponent<Animator>();
+        mainCamera = Camera.main;
         rd2d = gameObject.GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        playerAnimator.SetBool("isFalling", isFalling);
+        playerAnimator.SetBool("isGrounded", isGrounded);
     }
 
     public void Update()
@@ -52,9 +63,9 @@ public class PlayerController : MonoBehaviour
     // Jump Player position
     private void JumpPos(bool jump)
     {
-        if (jump && isGrounded)
+        if (jump && playerAnimator.GetBool("isGrounded") == true)
         {
-            rd2d.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Force);
+            rd2d.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
         }
     }
 
@@ -70,18 +81,24 @@ public class PlayerController : MonoBehaviour
     {
         playerAnimator.SetFloat("Speed", Mathf.Abs(moveSpeed));
 
-        // Flipping the player animation
-        Vector3 scale = transform.localScale;
-        if (moveSpeed < 0)
+        // Update flip state only if the direction changes
+        if (moveSpeed < 0 && isFacingRight)
         {
-            scale.x = -1f * Mathf.Abs(scale.x);
+            FlipPlayer(false); // Flip to face left
         }
-        else if (moveSpeed > 0)
+        else if (moveSpeed > 0 && !isFacingRight)
         {
-            scale.x = Mathf.Abs(scale.x);
+            FlipPlayer(true); // Flip to face right
         }
-        transform.localScale = scale;
     }
+
+    private void FlipPlayer(bool facingRight)
+    {
+        isFacingRight = facingRight;
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.flipX = !facingRight;
+    }
+
 
     // Crouch animation
     private void CrouchAnim(bool crouch)
@@ -100,7 +117,10 @@ public class PlayerController : MonoBehaviour
     // Jump animation
     private void JumpAnim(bool jump)
     {
-        if (jump) { playerAnimator.SetTrigger("Jump"); }
+        if (jump)
+        {
+            playerAnimator.SetTrigger("Jump");
+        }
     }
 
     private void OnCollisionStay2D(Collision2D other)
@@ -108,15 +128,8 @@ public class PlayerController : MonoBehaviour
         if (other.collider.CompareTag("Platform") && playerAnimator.speed == 0)
         {
             playerAnimator.speed = 1;
-            isGrounded = true;
             playerAnimator.SetBool("isGrounded", true);
-        }
-
-        if (other.collider.CompareTag("Platform") && playerAnimator.GetBool("isFalling") == true)
-        {
-            isGrounded = true;
             playerAnimator.SetBool("isFalling", false);
-            playerAnimator.SetBool("isGrounded", true);
         }
     }
 
@@ -124,16 +137,20 @@ public class PlayerController : MonoBehaviour
     {
         if (other.collider.CompareTag("Platform"))
         {
-            isGrounded = false;
             playerAnimator.SetBool("isGrounded", false);
         }
 
-        if (other.collider.CompareTag("Platform") && playerAnimator.GetBool("isFalling") == false)
+        if (other.collider.CompareTag("Platform") && rd2d.velocity.y < 0.25)
         {
-            isGrounded = false;
-            playerAnimator.SetBool("isFalling", true);
             playerAnimator.SetBool("isGrounded", false);
+            Falling();
         }
+    }
+
+    private void Falling()
+    {
+        playerAnimator.speed = 0;
+        playerAnimator.SetBool("isFalling", true);
     }
 
     public void TakeLives()
@@ -141,44 +158,46 @@ public class PlayerController : MonoBehaviour
         lives--;
         UpdateLives();
 
-        if (lives <=0)
-            KillPlayer();
+        if (lives <= 0)
+            PlayerDeath();
     }
 
     private void UpdateLives()
     {
         if (lives == 2)
         {
-            Debug.Log("Player has 2 lives");
             live3.enabled = false;
         }
         else if (lives == 1)
         {
-            Debug.Log("Plaer has 1 lives");
             live2.enabled = false;
+        }
+        else if (lives == 0)
+        {
+            live1.enabled = false;
         }
         else
         {
+            live3.enabled = false;
+            live2.enabled = false;
             live1.enabled = false;
-            KillPlayer();
         }
     }
 
-    public void KillPlayer()
+    public void PlayerDeath()
     {
-        Debug.Log("Player died");
+        isDead = true;
+        Time.timeScale = 0;
+        mainCamera.transform.parent = null;
+        deathUIPanel.gameObject.SetActive(true);
+        rd2d.constraints = RigidbodyConstraints2D.FreezePosition;
         ReloadLevel();
     }
 
     private void ReloadLevel()
     {
-        SceneManager.LoadScene(0);
-    }
-
-    private void Falling()
-    {
-        playerAnimator.speed = 0;
-        isGrounded = false;
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void PickKey()
