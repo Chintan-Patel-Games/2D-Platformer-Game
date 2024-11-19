@@ -10,7 +10,7 @@ public class Pitfall : MonoBehaviour
             // Debug.Log("You Died");
             // Time.timeScale = 0;
 
-            other.gameObject.GetComponent<PlayerController>().KillPlayer();
+            other.gameObject.GetComponent<PlayerController>().PlayerDeath();
         }
     }
 }
