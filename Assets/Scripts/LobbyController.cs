@@ -4,8 +4,10 @@ using UnityEngine.UI;
 
 public class LobbyController : MonoBehaviour
 {
-    [SerializeField] GameObject menuCard;
-    [SerializeField] GameObject optionsCard;
+    [SerializeField] GameObject menuScreen;
+    [SerializeField] GameObject optionsScreen;
+    [SerializeField] GameObject loadingScreen;
+    [SerializeField] Animator progress;
     [SerializeField] Button startBtn;
     [SerializeField] AudioSource startSFX;
     [SerializeField] Button optionsBtn;
@@ -26,21 +28,34 @@ public class LobbyController : MonoBehaviour
     public void StartGame()
     {
         startSFX.Play();
-        SceneManager.LoadScene(1);
+        menuScreen.SetActive(false);
+        loadingScreen.SetActive(true);
+        if (IsAnimationFinished(progress))
+        {
+            SceneManager.LoadScene(1);
+        }
+    }
+
+    private bool IsAnimationFinished(Animator animationName)
+    {
+        AnimatorStateInfo stateInfo = animationName.GetCurrentAnimatorStateInfo(0); // Get state info of layer 0
+
+        // Check if the current animation is the target animation and if it has finished
+        return stateInfo.normalizedTime >= 1.0f;
     }
 
     public void Options()
     {
         optionsSFX.Play();
-        menuCard.SetActive(false);
-        optionsCard.SetActive(true);
+        menuScreen.SetActive(false);
+        optionsScreen.SetActive(true);
     }
 
     public void OptionsBack()
     {
         optionsBackSFX.Play();
-        optionsCard.SetActive(false);
-        menuCard.SetActive(true);
+        optionsScreen.SetActive(false);
+        menuScreen.SetActive(true);
     }
 
     public void QuitGame()
