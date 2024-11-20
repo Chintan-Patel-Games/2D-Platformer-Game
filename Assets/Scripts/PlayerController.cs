@@ -184,6 +184,7 @@ public class PlayerController : MonoBehaviour
     public void PlayerDeath()
     {
         isDead = true;
+        playerAnimator.SetBool("isDead",true);
         mainCamera.transform.parent = null;
         gameOverController.PlayerDied();
         this.enabled = false;
