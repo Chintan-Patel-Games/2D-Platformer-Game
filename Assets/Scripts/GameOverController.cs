@@ -39,6 +39,6 @@ public class GameOverController : MonoBehaviour
 
     public void QuitLevel()
     {
-        Application.Quit();
+        SceneManager.LoadScene(0);
     }
 }

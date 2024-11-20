@@ -7,9 +7,13 @@ public class LobbyController : MonoBehaviour
     [SerializeField] GameObject menuCard;
     [SerializeField] GameObject optionsCard;
     [SerializeField] Button startBtn;
+    [SerializeField] AudioSource startSFX;
     [SerializeField] Button optionsBtn;
+    [SerializeField] AudioSource optionsSFX;
     [SerializeField] Button optionsBackBtn;
+    [SerializeField] AudioSource optionsBackSFX;
     [SerializeField] Button quitBtn;
+    [SerializeField] AudioSource quitSFX;
 
     private void Awake()
     {
@@ -19,25 +23,29 @@ public class LobbyController : MonoBehaviour
         quitBtn.onClick.AddListener(QuitGame);
     }
 
-    private void StartGame()
+    public void StartGame()
     {
+        startSFX.Play();
         SceneManager.LoadScene(1);
     }
 
-    private void Options()
+    public void Options()
     {
+        optionsSFX.Play();
         menuCard.SetActive(false);
         optionsCard.SetActive(true);
     }
 
-    private void OptionsBack()
+    public void OptionsBack()
     {
+        optionsBackSFX.Play();
         optionsCard.SetActive(false);
         menuCard.SetActive(true);
     }
 
-    private void QuitGame()
+    public void QuitGame()
     {
+        quitSFX.Play();
         Application.Quit();
     }
 }
