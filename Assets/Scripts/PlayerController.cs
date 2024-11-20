@@ -1,17 +1,15 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public ScoreController scoreController;
+    [SerializeField] private ScoreController scoreController;
+    [SerializeField] private GameOverController gameOverController;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private Image live1;
     [SerializeField] private Image live2;
     [SerializeField] private Image live3;
-    [SerializeField] private GameObject deathUIPanel;
     private Animator playerAnimator;
     private Camera mainCamera;
     private Rigidbody2D rd2d;
@@ -52,7 +50,7 @@ public class PlayerController : MonoBehaviour
     // Move Player position
     private void MovePos(float moveSpeed)
     {
-        if (!isCrouching)
+        if (!isCrouching && !isDead)
         {
             Vector3 movePos = transform.position;
             movePos.x += moveSpeed * speed * Time.deltaTime;
@@ -95,7 +93,6 @@ public class PlayerController : MonoBehaviour
     private void FlipPlayer(bool facingRight)
     {
         isFacingRight = facingRight;
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.flipX = !facingRight;
     }
 
@@ -187,17 +184,9 @@ public class PlayerController : MonoBehaviour
     public void PlayerDeath()
     {
         isDead = true;
-        Time.timeScale = 0;
         mainCamera.transform.parent = null;
-        deathUIPanel.gameObject.SetActive(true);
-        rd2d.constraints = RigidbodyConstraints2D.FreezePosition;
-        ReloadLevel();
-    }
-
-    private void ReloadLevel()
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        gameOverController.PlayerDied();
+        this.enabled = false;
     }
 
     public void PickKey()
