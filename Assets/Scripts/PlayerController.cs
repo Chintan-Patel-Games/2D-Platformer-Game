@@ -3,13 +3,13 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private ScoreController scoreController;
-    [SerializeField] private GameOverController gameOverController;
-    [SerializeField] private float speed;
-    [SerializeField] private float jumpForce;
-    [SerializeField] private Image live1;
-    [SerializeField] private Image live2;
-    [SerializeField] private Image live3;
+    [SerializeField] ScoreController scoreController;
+    [SerializeField] GameOverController gameOverController;
+    [SerializeField] float speed;
+    [SerializeField] float jumpForce;
+    [SerializeField] Image live1;
+    [SerializeField] Image live2;
+    [SerializeField] Image live3;
     private Animator playerAnimator;
     private Camera mainCamera;
     private Rigidbody2D rd2d;

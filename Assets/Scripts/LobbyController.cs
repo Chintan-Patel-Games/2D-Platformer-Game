@@ -1,25 +1,25 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyController : MonoBehaviour
 {
     [SerializeField] GameObject menuScreen;
+    [SerializeField] GameObject levelScreen;
     [SerializeField] GameObject optionsScreen;
-    [SerializeField] GameObject loadingScreen;
-    [SerializeField] Animator progress;
     [SerializeField] Button startBtn;
     [SerializeField] AudioSource startSFX;
+    [SerializeField] Button levelSecBackBtn;
+    [SerializeField] Button optionsBackBtn;
+    [SerializeField] AudioSource backSFX;
     [SerializeField] Button optionsBtn;
     [SerializeField] AudioSource optionsSFX;
-    [SerializeField] Button optionsBackBtn;
-    [SerializeField] AudioSource optionsBackSFX;
     [SerializeField] Button quitBtn;
     [SerializeField] AudioSource quitSFX;
 
     private void Awake()
     {
         startBtn.onClick.AddListener(StartGame);
+        levelSecBackBtn.onClick.AddListener(LevelBack);
         optionsBtn.onClick.AddListener(Options);
         optionsBackBtn.onClick.AddListener(OptionsBack);
         quitBtn.onClick.AddListener(QuitGame);
@@ -29,19 +29,14 @@ public class LobbyController : MonoBehaviour
     {
         startSFX.Play();
         menuScreen.SetActive(false);
-        loadingScreen.SetActive(true);
-        if (IsAnimationFinished(progress))
-        {
-            SceneManager.LoadScene(1);
-        }
+        levelScreen.SetActive(true);
     }
 
-    private bool IsAnimationFinished(Animator animationName)
+    private void LevelBack()
     {
-        AnimatorStateInfo stateInfo = animationName.GetCurrentAnimatorStateInfo(0); // Get state info of layer 0
-
-        // Check if the current animation is the target animation and if it has finished
-        return stateInfo.normalizedTime >= 1.0f;
+        backSFX.Play();
+        levelScreen.SetActive(false);
+        menuScreen.SetActive(true);
     }
 
     public void Options()
@@ -53,7 +48,7 @@ public class LobbyController : MonoBehaviour
 
     public void OptionsBack()
     {
-        optionsBackSFX.Play();
+        backSFX.Play();
         optionsScreen.SetActive(false);
         menuScreen.SetActive(true);
     }
