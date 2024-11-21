@@ -4,9 +4,10 @@ using UnityEngine.UI;
 
 public class GameOverController : MonoBehaviour
 {
-    [SerializeField] private Animator gameOverAnimator;
-    [SerializeField] private Button restartbtn;
-    [SerializeField] private Button quitbtn;
+    [SerializeField] Animator gameOverAnimator;
+    [SerializeField] Button restartbtn;
+    [SerializeField] Button quitbtn;
+    private LevelList levelList;
 
     private void Awake()
     {
@@ -34,7 +35,8 @@ public class GameOverController : MonoBehaviour
 
     public void ReloadLevel()
     {
-        SceneManager.LoadScene(1);
+        Scene reloadScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(reloadScene.buildIndex);
     }
 
     public void QuitLevel()

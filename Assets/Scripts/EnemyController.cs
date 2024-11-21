@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public float moveSpeed;
-    public GameObject pointA;
-    public GameObject pointB;
+    [SerializeField] float moveSpeed;
+    [SerializeField] GameObject pointA;
+    [SerializeField] GameObject pointB;
     private Transform currentPoint;
 
     private void Start()
