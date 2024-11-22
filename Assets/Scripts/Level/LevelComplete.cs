@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelComplete : MonoBehaviour
 {
@@ -6,8 +7,8 @@ public class LevelComplete : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
-            Debug.Log("Level Complete");
-            Time.timeScale = 0;
+            LevelManager.Instance.MarkLevelComplete();
+            other.gameObject.GetComponent<PlayerController>().PlayerDeath();
         }
     }
 }
