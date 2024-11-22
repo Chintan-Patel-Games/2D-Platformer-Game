@@ -6,9 +6,6 @@ public class Pitfall : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
-            // Debug.Log("You Died");
-            // Time.timeScale = 0;
-
             other.gameObject.GetComponent<PlayerController>().PlayerDeath();
         }
     }

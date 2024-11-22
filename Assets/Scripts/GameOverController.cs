@@ -7,7 +7,6 @@ public class GameOverController : MonoBehaviour
     [SerializeField] Animator gameOverAnimator;
     [SerializeField] Button restartbtn;
     [SerializeField] Button quitbtn;
-    private LevelList levelList;
 
     private void Awake()
     {
@@ -25,7 +24,6 @@ public class GameOverController : MonoBehaviour
         if (gameOverAnimator != null)
         {
             gameOverAnimator.Play("Game_Over");
-            Debug.Log("GameOver animation triggered.");
         }
         else
         {
@@ -35,12 +33,11 @@ public class GameOverController : MonoBehaviour
 
     public void ReloadLevel()
     {
-        Scene reloadScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(reloadScene.buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void QuitLevel()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(LevelList.Lobby.ToString());
     }
 }

@@ -1,0 +1,102 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class LevelManager : MonoBehaviour
+{
+    private static LevelManager instance;
+    public static LevelManager Instance { get { return instance; } }
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void Start()
+    {
+        // Iterate through all levels in the LevelList enum
+        foreach (LevelList level in System.Enum.GetValues(typeof(LevelList)))
+        {
+            if (level == LevelList.Level1)
+            {
+                // Ensure Level 1 is unlocked
+                if (GetLevelStatus(level.ToString()) == LevelStatus.Locked)
+                {
+                    SetLevelStatus(level.ToString(), LevelStatus.Unlocked);
+                }
+            }
+            else
+            {
+                // Lock all other levels
+                SetLevelStatus(level.ToString(), LevelStatus.Locked);
+            }
+        }
+    }
+
+    // public void MarkLevelComplete()
+    // {
+    //     Scene currentLevel = SceneManager.GetActiveScene();
+    //     SetLevelStatus(currentLevel.name, LevelStatus.Completed);
+    //     Debug.Log(currentLevel.name + " : " + LevelStatus.Completed);
+
+        //     int currentIndex = currentLevel.buildIndex;
+        //     if (currentIndex + 1 < System.Enum.GetValues(typeof(LevelList)).Length)
+        //     {
+        //         LevelList nextScene = (LevelList)(currentIndex + 1);
+        //         SetLevelStatus(nextScene.ToString(), LevelStatus.Unlocked);
+        //     }
+        // }
+
+    public void MarkLevelComplete()
+    {
+        // Get the current scene
+        Scene currentLevel = SceneManager.GetActiveScene();
+
+        // Mark the current level as Completed
+        PlayerPrefs.SetInt(currentLevel.name, (int)LevelStatus.Completed);
+
+        // Find the current level in the enum
+        if (System.Enum.TryParse(currentLevel.name, out LevelList currentLevelEnum))
+        {
+            int currentIndex = (int)currentLevelEnum;
+
+            // Check if there is a next level
+            if (currentIndex + 1 < System.Enum.GetValues(typeof(LevelList)).Length)
+            {
+                LevelList nextScene = (LevelList)(currentIndex + 1);
+
+                // Unlock the next level
+                PlayerPrefs.SetInt(nextScene.ToString(), (int)LevelStatus.Unlocked);
+            }
+            else
+            {
+                Debug.Log("No next level available.");
+            }
+        }
+        else
+        {
+            Debug.LogError($"Current scene {currentLevel.name} is not in the LevelList enum.");
+        }
+
+        // Save changes to PlayerPrefs
+        PlayerPrefs.Save();
+    }
+
+    public LevelStatus GetLevelStatus(string level)
+    {
+        LevelStatus levelStatus = (LevelStatus)PlayerPrefs.GetInt(level, 0);
+        return levelStatus;
+    }
+
+    public void SetLevelStatus(string level, LevelStatus levelStatus)
+    {
+        PlayerPrefs.SetInt(level, (int)levelStatus);
+    }
+}
