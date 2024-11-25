@@ -7,14 +7,10 @@ public class LobbyController : MonoBehaviour
     [SerializeField] GameObject levelScreen;
     [SerializeField] GameObject optionsScreen;
     [SerializeField] Button startBtn;
-    [SerializeField] AudioSource startSFX;
     [SerializeField] Button levelSecBackBtn;
     [SerializeField] Button optionsBackBtn;
-    [SerializeField] AudioSource backSFX;
     [SerializeField] Button optionsBtn;
-    [SerializeField] AudioSource optionsSFX;
     [SerializeField] Button quitBtn;
-    [SerializeField] AudioSource quitSFX;
 
     private void Awake()
     {
@@ -27,35 +23,35 @@ public class LobbyController : MonoBehaviour
 
     public void StartGame()
     {
-        startSFX.Play();
+        SoundManager.Instance.Play(Sounds.confirmBtn);
         menuScreen.SetActive(false);
         levelScreen.SetActive(true);
     }
 
     private void LevelBack()
     {
-        backSFX.Play();
+        SoundManager.Instance.Play(Sounds.backBtn);
         levelScreen.SetActive(false);
         menuScreen.SetActive(true);
     }
 
     public void Options()
     {
-        optionsSFX.Play();
+        SoundManager.Instance.Play(Sounds.confirmBtn);
         menuScreen.SetActive(false);
         optionsScreen.SetActive(true);
     }
 
     public void OptionsBack()
     {
-        backSFX.Play();
+        SoundManager.Instance.Play(Sounds.backBtn);
         optionsScreen.SetActive(false);
         menuScreen.SetActive(true);
     }
 
     public void QuitGame()
     {
-        quitSFX.Play();
+        SoundManager.Instance.Play(Sounds.quitBtn);
         Application.Quit();
     }
 }
