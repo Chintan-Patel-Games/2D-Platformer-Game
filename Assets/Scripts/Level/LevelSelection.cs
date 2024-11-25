@@ -8,7 +8,6 @@ public class LevelSelection : MonoBehaviour
 {
     private Button levelBtn;
     private TextMeshProUGUI levelText;
-    [SerializeField] AudioSource levelSfx;
     [SerializeField] string levelNo;
     [SerializeField] Color enabledColor;
     [SerializeField] Color disabledColor;
@@ -67,7 +66,7 @@ public class LevelSelection : MonoBehaviour
 
     private void StartLevelLoading()
     {
-        levelSfx.Play();
+        SoundManager.Instance.Play(Sounds.startBtn);
         // levelSelectScreen.SetActive(false);
         // loadingScreen.SetActive(true);
         SceneManager.LoadScene(levelNo);

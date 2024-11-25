@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     private bool isFacingRight = true;
     private bool isDead = false;
     private int lives = 3;
+    [SerializeField] private AudioSource audioSource; // Reference to the AudioSource
+    [SerializeField] private AudioClip[] footstepClips; // Array of footstep sounds
 
     private void Awake()
     {
@@ -64,6 +66,7 @@ public class PlayerController : MonoBehaviour
     {
         if (jump && playerAnimator.GetBool("isGrounded") == true)
         {
+            SoundManager.Instance.Play(Sounds.playerJump);
             rd2d.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
         }
     }
@@ -88,6 +91,17 @@ public class PlayerController : MonoBehaviour
         else if (moveSpeed > 0 && !isFacingRight)
         {
             FlipPlayer(true); // Flip to face right
+        }
+    }
+
+    // This method is called via animation events
+    public void PlayFootstep()
+    {
+        if (footstepClips.Length > 0)
+        {
+            // Randomize footstep sound for variety
+            AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
+            audioSource.PlayOneShot(clip);
         }
     }
 
@@ -125,6 +139,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.collider.CompareTag("Platform") && playerAnimator.speed == 0)
         {
+            SoundManager.Instance.Play(Sounds.playerLand);
             playerAnimator.speed = 1;
             playerAnimator.SetBool("isGrounded", true);
             playerAnimator.SetBool("isFalling", false);
@@ -192,7 +207,7 @@ public class PlayerController : MonoBehaviour
     public void PlayerDeath()
     {
         isDead = true;
-        playerAnimator.SetBool("isDead",true);
+        playerAnimator.SetBool("isDead", true);
         mainCamera.transform.parent = null;
         gameOverController.PlayerDied();
         this.enabled = false;

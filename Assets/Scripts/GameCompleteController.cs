@@ -25,6 +25,8 @@ public class GameCompleteController : MonoBehaviour
 
     public void NextLevel()
     {
+        SoundManager.Instance.Play(Sounds.startBtn);
+
         // Get the current scene
         Scene currentLevel = SceneManager.GetActiveScene();
 
@@ -52,6 +54,7 @@ public class GameCompleteController : MonoBehaviour
 
     public void Home()
     {
+        SoundManager.Instance.Play(Sounds.backBtn);
         SceneManager.LoadScene((int)LevelList.Lobby);
     }
 }
