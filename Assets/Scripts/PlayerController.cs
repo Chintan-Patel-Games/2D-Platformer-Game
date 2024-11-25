@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] ScoreController scoreController;
+    [SerializeField] GameCompleteController gameCompleteController;
     [SerializeField] GameOverController gameOverController;
     [SerializeField] float speed;
     [SerializeField] float jumpForce;
@@ -179,6 +180,13 @@ public class PlayerController : MonoBehaviour
             live2.enabled = false;
             live1.enabled = false;
         }
+    }
+
+    public void LevelComplete()
+    {
+        mainCamera.transform.parent = null;
+        gameCompleteController.GameComplete();
+        this.enabled = false;
     }
 
     public void PlayerDeath()
