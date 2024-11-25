@@ -21,23 +21,24 @@ public class LevelManager : MonoBehaviour
 
     public void Start()
     {
-        // Iterate through all levels in the LevelList enum
+        // Ensure Level 1 is unlocked and the rest are locked
         foreach (LevelList level in System.Enum.GetValues(typeof(LevelList)))
         {
             if (level == LevelList.Level1)
             {
                 // Ensure Level 1 is unlocked
-                if (GetLevelStatus(level.ToString()) == LevelStatus.Locked)
+                if (PlayerPrefs.GetInt(level.ToString(), (int)LevelStatus.Locked) == (int)LevelStatus.Locked)
                 {
-                    SetLevelStatus(level.ToString(), LevelStatus.Unlocked);
+                    PlayerPrefs.SetInt(level.ToString(), (int)LevelStatus.Unlocked);
                 }
             }
             else
             {
                 // Lock all other levels
-                SetLevelStatus(level.ToString(), LevelStatus.Locked);
+                PlayerPrefs.SetInt(level.ToString(), (int)LevelStatus.Locked);
             }
         }
+        PlayerPrefs.Save();
     }
 
     // public void MarkLevelComplete()
@@ -46,23 +47,23 @@ public class LevelManager : MonoBehaviour
     //     SetLevelStatus(currentLevel.name, LevelStatus.Completed);
     //     Debug.Log(currentLevel.name + " : " + LevelStatus.Completed);
 
-        //     int currentIndex = currentLevel.buildIndex;
-        //     if (currentIndex + 1 < System.Enum.GetValues(typeof(LevelList)).Length)
-        //     {
-        //         LevelList nextScene = (LevelList)(currentIndex + 1);
-        //         SetLevelStatus(nextScene.ToString(), LevelStatus.Unlocked);
-        //     }
-        // }
+    //     int currentIndex = currentLevel.buildIndex;
+    //     if (currentIndex + 1 < System.Enum.GetValues(typeof(LevelList)).Length)
+    //     {
+    //         LevelList nextScene = (LevelList)(currentIndex + 1);
+    //         SetLevelStatus(nextScene.ToString(), LevelStatus.Unlocked);
+    //     }
+    // }
 
     public void MarkLevelComplete()
     {
         // Get the current scene
         Scene currentLevel = SceneManager.GetActiveScene();
 
-        // Mark the current level as Completed
+        // Mark the current level as Completed 
         PlayerPrefs.SetInt(currentLevel.name, (int)LevelStatus.Completed);
 
-        // Find the current level in the enum
+        // Find the current level in the enum and determine the next level
         if (System.Enum.TryParse(currentLevel.name, out LevelList currentLevelEnum))
         {
             int currentIndex = (int)currentLevelEnum;
@@ -84,14 +85,14 @@ public class LevelManager : MonoBehaviour
         {
             Debug.LogError($"Current scene {currentLevel.name} is not in the LevelList enum.");
         }
-
+        
         // Save changes to PlayerPrefs
         PlayerPrefs.Save();
     }
 
     public LevelStatus GetLevelStatus(string level)
     {
-        LevelStatus levelStatus = (LevelStatus)PlayerPrefs.GetInt(level, 0);
+        LevelStatus levelStatus = (LevelStatus)PlayerPrefs.GetInt(level, (int)LevelStatus.Locked);  // Default to Locked
         return levelStatus;
     }
 

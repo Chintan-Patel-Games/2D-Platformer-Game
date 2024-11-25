@@ -5,13 +5,13 @@ using UnityEngine.UI;
 public class GameOverController : MonoBehaviour
 {
     [SerializeField] Animator gameOverAnimator;
-    [SerializeField] Button restartbtn;
-    [SerializeField] Button quitbtn;
+    [SerializeField] Button restartBtn;
+    [SerializeField] Button homeBtn;
 
     private void Awake()
     {
-        restartbtn.onClick.AddListener(ReloadLevel);
-        quitbtn.onClick.AddListener(QuitLevel);
+        restartBtn.onClick.AddListener(ReloadLevel);
+        homeBtn.onClick.AddListener(Home);
     }
     public void PlayerDied()
     {
@@ -36,8 +36,8 @@ public class GameOverController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void QuitLevel()
+    public void Home()
     {
-        SceneManager.LoadScene(LevelList.Lobby.ToString());
+        SceneManager.LoadScene((int)LevelList.Lobby);
     }
 }
