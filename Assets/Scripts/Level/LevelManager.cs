@@ -76,10 +76,6 @@ public class LevelManager : MonoBehaviour
                 // Unlock the next level
                 PlayerPrefs.SetInt(nextScene.ToString(), (int)LevelStatus.Unlocked);
             }
-            else
-            {
-                Debug.Log("No next level available.");
-            }
         }
         else
         {

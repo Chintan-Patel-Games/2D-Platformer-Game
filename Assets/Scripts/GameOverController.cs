@@ -13,9 +13,15 @@ public class GameOverController : MonoBehaviour
         restartBtn.onClick.AddListener(ReloadLevel);
         homeBtn.onClick.AddListener(Home);
     }
+
+    private void Start()
+    {
+        gameOverAnimator = GetComponent<Animator>();
+    }
     public void PlayerDied()
     {
         SoundManager.Instance.Play(Sounds.playerDied);
+        Time.timeScale = 0;
         gameObject.SetActive(true);
         PlayGameOverAnimation();
     }
@@ -24,7 +30,7 @@ public class GameOverController : MonoBehaviour
     {
         if (gameOverAnimator != null)
         {
-            gameOverAnimator.Play("Game_Over");
+            gameOverAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
         }
         else
         {
@@ -35,12 +41,14 @@ public class GameOverController : MonoBehaviour
     public void ReloadLevel()
     {
         SoundManager.Instance.Play(Sounds.startBtn);
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Home()
     {
         SoundManager.Instance.Play(Sounds.backBtn);
+        Time.timeScale = 1;
         SceneManager.LoadScene((int)LevelList.Lobby);
     }
 }

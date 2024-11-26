@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 288268462112629160}
   - component: {fileID: 5007907468796686596}
   - component: {fileID: 1133066495}
-  - component: {fileID: 1133066494}
+  - component: {fileID: 5760507159121283414}
   - component: {fileID: 1133066496}
   - component: {fileID: 4646172804443323651}
   m_Layer: 6
@@ -124,7 +124,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 519420032}
@@ -218,7 +218,7 @@ Rigidbody2D:
   m_Mass: 1.5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 6
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -230,8 +230,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &1133066494
-BoxCollider2D:
+--- !u!70 &5760507159121283414
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -262,19 +262,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.98489034}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.42, y: 0.1}
-    oldSize: {x: 3.7534883, y: 2.8325582}
-    newSize: {x: 3.7534883, y: 2.8325582}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.75, y: 2.0947807}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0, y: 1}
+  m_Size: {x: 0.6, y: 2.125}
+  m_Direction: 0
 --- !u!114 &1133066496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,17 +280,27 @@ MonoBehaviour:
   scoreController: {fileID: 0}
   gameCompleteController: {fileID: 0}
   gameOverController: {fileID: 0}
-  speed: 10
-  jumpForce: 8.5
-  live1: {fileID: 0}
-  live2: {fileID: 0}
-  live3: {fileID: 0}
+  speed: 6
+  jumpForce: 30
+  life:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   audioSource: {fileID: 4646172804443323651}
+  jumpClip: {fileID: 8300000, guid: e5cb0976ee7cf93489107ede5175519b, type: 3}
+  landClip: {fileID: 8300000, guid: ea217dc637f73b649a2866febb99c4a2, type: 3}
   footstepClips:
   - {fileID: 8300000, guid: 13de3c8b19190eb488622c2982f7e977, type: 3}
   - {fileID: 8300000, guid: ccb3ad8b5906ef14d921491eb8be7e2d, type: 3}
   - {fileID: 8300000, guid: 88cf4c38c64a7b84f88a54036e698825, type: 3}
   - {fileID: 8300000, guid: 234b586e812e70b419affbe33e30dcfe, type: 3}
+  hurtClips:
+  - {fileID: 8300000, guid: 6b6f919b655318a469cb53dcc1712340, type: 3}
+  - {fileID: 8300000, guid: 55cf2d6b154ee6d4e87f7f87ac724172, type: 3}
+  - {fileID: 8300000, guid: d50f2e0626e662041aa8a2ff5f8ebcc6, type: 3}
+  - {fileID: 8300000, guid: 151cb0c18bcdc6040aa921203a4ca7a5, type: 3}
+  - {fileID: 8300000, guid: 8d76c4a7797e3994eb5a27a04876b1fe, type: 3}
+  - {fileID: 8300000, guid: 6c438cd8f403270478a157682bf24456, type: 3}
 --- !u!82 &4646172804443323651
 AudioSource:
   m_ObjectHideFlags: 0

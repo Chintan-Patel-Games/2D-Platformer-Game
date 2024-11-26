@@ -1,34 +1,37 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] ScoreController scoreController;
     [SerializeField] GameCompleteController gameCompleteController;
     [SerializeField] GameOverController gameOverController;
+    [SerializeField] UIController uiController;
     [SerializeField] float speed;
     [SerializeField] float jumpForce;
-    [SerializeField] Image live1;
-    [SerializeField] Image live2;
-    [SerializeField] Image live3;
     private Animator playerAnimator;
     private Camera mainCamera;
-    private Rigidbody2D rd2d;
+    private Rigidbody2D rb2d;
     private SpriteRenderer spriteRenderer;
+    private bool isWithGun = false;
+    private bool isWalking = false;
     private bool isFalling = true;
     private bool isGrounded = false;
     private bool isCrouching = false;
     private bool isFacingRight = true;
     private bool isDead = false;
-    private int lives = 3;
+    public int lives = 3;
     [SerializeField] private AudioSource audioSource; // Reference to the AudioSource
+    [SerializeField] private AudioClip jumpClip; // Array of jump sounds
+    [SerializeField] private AudioClip landClip; // Array of land sounds
     [SerializeField] private AudioClip[] footstepClips; // Array of footstep sounds
+    [SerializeField] private AudioClip[] hurtClips; // Array of hurt sounds
 
     private void Awake()
     {
         playerAnimator = gameObject.GetComponent<Animator>();
         mainCamera = Camera.main;
-        rd2d = gameObject.GetComponent<Rigidbody2D>();
+        rb2d = gameObject.GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator.SetBool("isFalling", isFalling);
         playerAnimator.SetBool("isGrounded", isGrounded);
@@ -39,15 +42,17 @@ public class PlayerController : MonoBehaviour
         float moveSpeed = Input.GetAxisRaw("Horizontal");
         bool crouch = Input.GetKey(KeyCode.LeftControl);
         bool jump = Input.GetKeyDown(KeyCode.Space);
+        bool walk = Input.GetKeyDown(KeyCode.LeftShift);
 
-        MoveCharacter(moveSpeed, jump);
-        MoveAnimation(moveSpeed, crouch, jump);
+        MoveCharacter(moveSpeed, jump, walk);
+        MoveAnimation(moveSpeed, crouch, jump, walk);
     }
 
-    private void MoveCharacter(float moveSpeed, bool jump)
+    private void MoveCharacter(float moveSpeed, bool jump, bool walk)
     {
         MovePos(moveSpeed);
         JumpPos(jump);
+        WalkPos(moveSpeed, walk);
     }
 
     // Move Player position
@@ -66,12 +71,23 @@ public class PlayerController : MonoBehaviour
     {
         if (jump && playerAnimator.GetBool("isGrounded") == true)
         {
-            SoundManager.Instance.Play(Sounds.playerJump);
-            rd2d.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+            audioSource.PlayOneShot(jumpClip);
+            rb2d.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
         }
     }
 
-    private void MoveAnimation(float moveSpeed, bool crouch, bool jump)
+    // Move Player position
+    private void WalkPos(float moveSpeed, bool walk)
+    {
+        if (!isCrouching && !isDead)
+        {
+            Vector3 movePos = transform.position;
+            movePos.x += moveSpeed * speed * Time.deltaTime;
+            transform.position = movePos;
+        }
+    }
+
+    private void MoveAnimation(float moveSpeed, bool crouch, bool jump, bool walk)
     {
         RunAnim(moveSpeed);
         CrouchAnim(crouch);
@@ -91,17 +107,6 @@ public class PlayerController : MonoBehaviour
         else if (moveSpeed > 0 && !isFacingRight)
         {
             FlipPlayer(true); // Flip to face right
-        }
-    }
-
-    // This method is called via animation events
-    public void PlayFootstep()
-    {
-        if (footstepClips.Length > 0)
-        {
-            // Randomize footstep sound for variety
-            AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
-            audioSource.PlayOneShot(clip);
         }
     }
 
@@ -139,7 +144,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.collider.CompareTag("Platform") && playerAnimator.speed == 0)
         {
-            SoundManager.Instance.Play(Sounds.playerLand);
+            audioSource.PlayOneShot(landClip);
             playerAnimator.speed = 1;
             playerAnimator.SetBool("isGrounded", true);
             playerAnimator.SetBool("isFalling", false);
@@ -153,13 +158,37 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool("isGrounded", false);
         }
 
-        if (other.collider.CompareTag("Platform") && rd2d.velocity.y < 0.25)
+        if (other.collider.CompareTag("Platform") && rb2d.velocity.y < 0.25)
         {
             playerAnimator.SetBool("isGrounded", false);
             Falling();
         }
     }
 
+    // This method is called via animation events
+    public void PlayFootstep()
+    {
+        if (footstepClips.Length > 0)
+        {
+            // Randomize footstep sound for variety
+            AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
+            audioSource.PlayOneShot(clip);
+        }
+    }
+
+    // This method is called via animation events
+    public void PlayerHurt()
+    {
+        if (hurtClips.Length > 0)
+        {
+            // Randomize footstep sound for variety
+            AudioClip clip = hurtClips[Random.Range(0, hurtClips.Length)];
+            audioSource.PlayOneShot(clip);
+        }
+        transform.position = transform.localPosition;
+    }
+
+    // This method is called via animation events
     private void Falling()
     {
         playerAnimator.speed = 0;
@@ -169,32 +198,11 @@ public class PlayerController : MonoBehaviour
     public void TakeLives()
     {
         lives--;
-        UpdateLives();
+        playerAnimator.SetTrigger("takeDamage");
+        uiController.UpdateLives();
 
         if (lives <= 0)
             PlayerDeath();
-    }
-
-    private void UpdateLives()
-    {
-        if (lives == 2)
-        {
-            live3.enabled = false;
-        }
-        else if (lives == 1)
-        {
-            live2.enabled = false;
-        }
-        else if (lives == 0)
-        {
-            live1.enabled = false;
-        }
-        else
-        {
-            live3.enabled = false;
-            live2.enabled = false;
-            live1.enabled = false;
-        }
     }
 
     public void LevelComplete()
@@ -209,12 +217,18 @@ public class PlayerController : MonoBehaviour
         isDead = true;
         playerAnimator.SetBool("isDead", true);
         mainCamera.transform.parent = null;
-        gameOverController.PlayerDied();
+        StartCoroutine(PlayerDiedUI());
         this.enabled = false;
+    }
+
+    private IEnumerator PlayerDiedUI()
+    {
+        yield return new WaitForSeconds(0.5f); 
+        gameOverController.PlayerDied();
     }
 
     public void PickKey()
     {
-        scoreController.IncreaseScore(10);
+        Debug.Log("Player picked up the key");
     }
 }

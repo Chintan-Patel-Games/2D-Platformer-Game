@@ -15,6 +15,7 @@ public class GameCompleteController : MonoBehaviour
     }
     public void GameComplete()
     {
+        Time.timeScale = 0;
         gameObject.SetActive(true);
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
         if (currentLevel >= Enum.GetNames(typeof(LevelList)).Length)
@@ -26,6 +27,7 @@ public class GameCompleteController : MonoBehaviour
     public void NextLevel()
     {
         SoundManager.Instance.Play(Sounds.startBtn);
+        Time.timeScale = 1;
 
         // Get the current scene
         Scene currentLevel = SceneManager.GetActiveScene();
@@ -55,6 +57,7 @@ public class GameCompleteController : MonoBehaviour
     public void Home()
     {
         SoundManager.Instance.Play(Sounds.backBtn);
+        Time.timeScale = 1;
         SceneManager.LoadScene((int)LevelList.Lobby);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -24,21 +25,26 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        PlayMusic(global::Sounds.bgm);
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public void Mute(bool status)
+    private void OnDisable()
     {
-        isMute = status;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    public void SetVolume(float volume)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Volume = volume;
-        SFX.volume = volume;
-        BGM.volume = volume;
+        if (SceneManager.GetActiveScene().name == LevelList.Lobby.ToString())
+        {
+            PlayMusic(global::Sounds.lobbyBgm);
+        }
+        else
+        {
+            PlayMusic(global::Sounds.levelBgm);
+        }
     }
 
     public void PlayMusic(Sounds sound)
@@ -47,7 +53,8 @@ public class SoundManager : MonoBehaviour
         AudioClip clip = GetSoundClip(sound);
         if (clip != null)
         {
-            BGM.PlayOneShot(clip);
+            BGM.clip = clip;
+            BGM.Play();
         }
         else
         {
@@ -76,6 +83,18 @@ public class SoundManager : MonoBehaviour
             return item.soundClip;
         return null;
     }
+
+    public void Mute(bool status)
+    {
+        isMute = status;
+    }
+
+    public void SetVolume(float volume)
+    {
+        Volume = volume;
+        SFX.volume = volume;
+        BGM.volume = volume;
+    }
 }
 
 [Serializable]
@@ -87,7 +106,8 @@ public class SoundType
 
 public enum Sounds
 {
-    bgm,
+    lobbyBgm,
+    levelBgm,
     playerJump,
     playerLand,
     playerDied,

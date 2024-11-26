@@ -7,7 +7,7 @@ public class LobbyController : MonoBehaviour
     [SerializeField] GameObject levelScreen;
     [SerializeField] GameObject optionsScreen;
     [SerializeField] Button startBtn;
-    [SerializeField] Button levelSecBackBtn;
+    [SerializeField] Button levelBackBtn;
     [SerializeField] Button optionsBackBtn;
     [SerializeField] Button optionsBtn;
     [SerializeField] Button quitBtn;
@@ -15,7 +15,7 @@ public class LobbyController : MonoBehaviour
     private void Awake()
     {
         startBtn.onClick.AddListener(StartGame);
-        levelSecBackBtn.onClick.AddListener(LevelBack);
+        levelBackBtn.onClick.AddListener(LevelBack);
         optionsBtn.onClick.AddListener(Options);
         optionsBackBtn.onClick.AddListener(OptionsBack);
         quitBtn.onClick.AddListener(QuitGame);
