@@ -1,40 +1,57 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] GameCompleteController gameCompleteController;
     [SerializeField] GameOverController gameOverController;
     [SerializeField] UIController uiController;
+    [SerializeField] ParticleSystem bulletParticle;
+
+    [Tooltip("Movement Speed")]
     [SerializeField] float speed;
+
+    [Tooltip("Jump Force")]
     [SerializeField] float jumpForce;
+
+    [Tooltip("Reference to the AudioSource")]
+    [SerializeField] AudioSource audioSource;
+
+    [Tooltip("Array of jump sounds")]
+    [SerializeField] AudioClip jumpClip;
+
+    [Tooltip("Array of land sounds")]
+    [SerializeField] AudioClip landClip;
+
+    [Tooltip("Array of footstep sounds")]
+    [SerializeField] AudioClip[] footstepClips;
+
+    [Tooltip("Array of hurt sounds")]
+    [SerializeField] AudioClip[] hurtClips;
+
+    [Tooltip("Array of melee sounds")]
+    [SerializeField] AudioClip[] meleeClips;
+
+    [Tooltip("Array of bullet sounds")]
+    [SerializeField] AudioClip[] bulletClips;
+
     private Animator playerAnimator;
-    private Camera mainCamera;
     private Rigidbody2D rb2d;
     private SpriteRenderer spriteRenderer;
-    private bool isWithGun = false;
-    private bool isWalking = false;
-    private bool isFalling = true;
-    private bool isGrounded = false;
-    private bool isCrouching = false;
     private bool isFacingRight = true;
     private bool isDead = false;
-    public int lives = 3;
-    [SerializeField] private AudioSource audioSource; // Reference to the AudioSource
-    [SerializeField] private AudioClip jumpClip; // Array of jump sounds
-    [SerializeField] private AudioClip landClip; // Array of land sounds
-    [SerializeField] private AudioClip[] footstepClips; // Array of footstep sounds
-    [SerializeField] private AudioClip[] hurtClips; // Array of hurt sounds
+    private bool meleeAttack = false;
+    private int lives = 3;
+    public int Lives { get { return lives; } }
+    private int keys = 0;
+    public int Keys { get { return keys; } }
 
     private void Awake()
     {
         playerAnimator = gameObject.GetComponent<Animator>();
-        mainCamera = Camera.main;
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        playerAnimator.SetBool("isFalling", isFalling);
-        playerAnimator.SetBool("isGrounded", isGrounded);
+        playerAnimator.SetBool("isFalling", true);
+        playerAnimator.SetBool("isGrounded", false);
     }
 
     public void Update()
@@ -42,27 +59,89 @@ public class PlayerController : MonoBehaviour
         float moveSpeed = Input.GetAxisRaw("Horizontal");
         bool crouch = Input.GetKey(KeyCode.LeftControl);
         bool jump = Input.GetKeyDown(KeyCode.Space);
-        bool walk = Input.GetKeyDown(KeyCode.LeftShift);
+        bool shoot = Input.GetMouseButtonDown(0);
+        bool melee = Input.GetKeyDown(KeyCode.F);
+        // bool interact = Input.GetKeyDown(KeyCode.E);
+        bool weaponSwitch = Input.GetKeyDown(KeyCode.Q);
 
-        MoveCharacter(moveSpeed, jump, walk);
-        MoveAnimation(moveSpeed, crouch, jump, walk);
+        MoveCharacter(moveSpeed, jump);
+        MoveAnimation(moveSpeed, crouch, jump);
+        WeaponShoot(shoot);
+        WeaponsAnimation(melee, weaponSwitch);
     }
 
-    private void MoveCharacter(float moveSpeed, bool jump, bool walk)
+    private void MoveCharacter(float moveSpeed, bool jump)
     {
         MovePos(moveSpeed);
         JumpPos(jump);
-        WalkPos(moveSpeed, walk);
     }
 
-    // Move Player position
+    // Move Run Player position
     private void MovePos(float moveSpeed)
     {
-        if (!isCrouching && !isDead)
+        if (playerAnimator.GetBool("isCrouching") == false && !isDead)
         {
             Vector3 movePos = transform.position;
             movePos.x += moveSpeed * speed * Time.deltaTime;
             transform.position = movePos;
+        }
+    }
+
+    private void WeaponShoot(bool shoot)
+    {
+        if (shoot && playerAnimator.GetBool("isWithGun") == true)
+        {
+            bulletParticle.Emit(1);
+
+            if (bulletClips.Length > 0)
+            {
+                // Randomize melee sound for variety
+                AudioClip clip = bulletClips[Random.Range(0, bulletClips.Length)];
+                audioSource.PlayOneShot(clip);
+            }
+
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 10f);
+            if (hit.collider != null)
+            {
+                EnemyController enemy = hit.collider.GetComponent<EnemyController>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(1);
+                }
+            }
+        }
+    }
+
+    // Animations for Weapons Controls
+    private void WeaponsAnimation(bool melee, bool weaponSwitch)
+    {
+        if (melee)
+        {
+            meleeAttack = true;
+            playerAnimator.SetTrigger("staffAttack");
+
+            if (meleeClips.Length > 0)
+            {
+                // Randomize melee sound for variety
+                AudioClip clip = meleeClips[Random.Range(0, meleeClips.Length)];
+                audioSource.PlayOneShot(clip);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            playerAnimator.SetBool("isWithGun", false);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            playerAnimator.SetBool("isWithGun", true);
+        }
+        else if (weaponSwitch)
+        {
+            // Toggle between weapons
+            bool isWithGun = playerAnimator.GetBool("isWithGun");
+            isWithGun = !isWithGun;
+            playerAnimator.SetBool("isWithGun", isWithGun);
         }
     }
 
@@ -76,18 +155,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Move Player position
-    private void WalkPos(float moveSpeed, bool walk)
-    {
-        if (!isCrouching && !isDead)
-        {
-            Vector3 movePos = transform.position;
-            movePos.x += moveSpeed * speed * Time.deltaTime;
-            transform.position = movePos;
-        }
-    }
-
-    private void MoveAnimation(float moveSpeed, bool crouch, bool jump, bool walk)
+    private void MoveAnimation(float moveSpeed, bool crouch, bool jump)
     {
         RunAnim(moveSpeed);
         CrouchAnim(crouch);
@@ -114,16 +182,27 @@ public class PlayerController : MonoBehaviour
     {
         isFacingRight = facingRight;
         spriteRenderer.flipX = !facingRight;
+
+        // Flip the ParticleSystem's GameObject directly
+        bulletParticle.transform.localRotation = Quaternion.Euler(0f, facingRight ? 0f : 180f, 0f);
     }
 
 
     // Crouch animation
     private void CrouchAnim(bool crouch)
     {
-        if (crouch)
+        if (crouch && playerAnimator.GetBool("isWithGun") == false)
             Crouch(true);
+        else if (crouch && playerAnimator.GetBool("isWithGun") == true)
+        {
+            Crouch(true);
+            bulletParticle.transform.localPosition = new Vector2(0f, 0.8f);
+        }
         else
+        {
             Crouch(false);
+            bulletParticle.transform.localPosition = new Vector2(0f, 1.54f);
+        }
     }
 
     public void Crouch(bool crouch)
@@ -134,9 +213,13 @@ public class PlayerController : MonoBehaviour
     // Jump animation
     private void JumpAnim(bool jump)
     {
-        if (jump)
+        if (jump && playerAnimator.GetBool("isWithGun") == false && playerAnimator.GetBool("isCrouching") == false)
         {
             playerAnimator.SetTrigger("Jump");
+        }
+        else if (jump && playerAnimator.GetBool("isWithGun") == true && playerAnimator.GetBool("isCrouching") == false)
+        {
+            playerAnimator.SetTrigger("JumpWithGun");
         }
     }
 
@@ -162,6 +245,15 @@ public class PlayerController : MonoBehaviour
         {
             playerAnimator.SetBool("isGrounded", false);
             Falling();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.GetComponent<EnemyController>() != null)
+        {
+            if (meleeAttack)
+                other.gameObject.GetComponent<EnemyController>().TakeDamage(10);
         }
     }
 
@@ -205,30 +297,26 @@ public class PlayerController : MonoBehaviour
             PlayerDeath();
     }
 
-    public void LevelComplete()
-    {
-        mainCamera.transform.parent = null;
-        gameCompleteController.GameComplete();
-        this.enabled = false;
-    }
-
     public void PlayerDeath()
     {
         isDead = true;
         playerAnimator.SetBool("isDead", true);
-        mainCamera.transform.parent = null;
-        StartCoroutine(PlayerDiedUI());
         this.enabled = false;
+        StartCoroutine(PlayerDiedUI());
     }
 
     private IEnumerator PlayerDiedUI()
     {
-        yield return new WaitForSeconds(0.5f); 
+        yield return new WaitForSeconds(0.5f);
         gameOverController.PlayerDied();
     }
 
     public void PickKey()
     {
-        Debug.Log("Player picked up the key");
+        if (keys < 3)
+            keys++;
+        else
+            return;
+        uiController.UpdateKeys();
     }
 }

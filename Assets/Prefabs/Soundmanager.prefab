@@ -53,10 +53,6 @@ MonoBehaviour:
     soundClip: {fileID: 8300000, guid: 0651b56880a11ef45909b779443691aa, type: 3}
   - soundType: 1
     soundClip: {fileID: 8300000, guid: 3a9ba69f03694d44a9968f5b7c4abb1c, type: 3}
-  - soundType: 2
-    soundClip: {fileID: 8300000, guid: e5cb0976ee7cf93489107ede5175519b, type: 3}
-  - soundType: 3
-    soundClip: {fileID: 8300000, guid: ea217dc637f73b649a2866febb99c4a2, type: 3}
   - soundType: 4
     soundClip: {fileID: 8300000, guid: 31b2284e8ab3f244182080ca7da474b7, type: 3}
   - soundType: 5
@@ -118,7 +114,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 0.25
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

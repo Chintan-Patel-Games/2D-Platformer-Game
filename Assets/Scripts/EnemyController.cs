@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] GameObject pointA;
     [SerializeField] GameObject pointB;
     private Transform currentPoint;
+    private int health = 5;
 
     private void Start()
     {
@@ -48,11 +49,20 @@ public class EnemyController : MonoBehaviour
         transform.localScale = localScale;
     }
 
+    public void TakeDamage(int damage)
+    {
+        health = health - damage;
+        if (health < 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
-            other.gameObject.GetComponent<PlayerController>().TakeLives();
+            // other.gameObject.GetComponent<PlayerController>().TakeLives();
         }
     }
 }

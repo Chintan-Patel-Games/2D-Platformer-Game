@@ -20,6 +20,7 @@ public class GameCompleteController : MonoBehaviour
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
         if (currentLevel >= Enum.GetNames(typeof(LevelList)).Length)
         {
+            Debug.Log("All Levels Completed");
             nextLevelBtn.interactable = false;
         }
     }
