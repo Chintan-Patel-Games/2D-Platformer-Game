@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Jump Force")]
     [SerializeField] float jumpForce;
 
+    [Tooltip("Staff Damage")]
+    [SerializeField] int staffDmg = 10;
+
     [Tooltip("Reference to the AudioSource")]
     [SerializeField] AudioSource audioSource;
 
@@ -36,10 +39,10 @@ public class PlayerController : MonoBehaviour
 
     private Animator playerAnimator;
     private Rigidbody2D rb2d;
-    private SpriteRenderer spriteRenderer;
+    private CapsuleCollider2D capsuleCollider2D;
+    private BoxCollider2D boxCollider2D;
     private bool isFacingRight = true;
     private bool isDead = false;
-    private bool meleeAttack = false;
     private int lives = 3;
     public int Lives { get { return lives; } }
     private int keys = 0;
@@ -49,7 +52,8 @@ public class PlayerController : MonoBehaviour
     {
         playerAnimator = gameObject.GetComponent<Animator>();
         rb2d = gameObject.GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        capsuleCollider2D = gameObject.GetComponent<CapsuleCollider2D>();
+        boxCollider2D = gameObject.GetComponent<BoxCollider2D>();
         playerAnimator.SetBool("isFalling", true);
         playerAnimator.SetBool("isGrounded", false);
     }
@@ -117,7 +121,6 @@ public class PlayerController : MonoBehaviour
     {
         if (melee)
         {
-            meleeAttack = true;
             playerAnimator.SetTrigger("staffAttack");
 
             if (meleeClips.Length > 0)
@@ -181,10 +184,7 @@ public class PlayerController : MonoBehaviour
     private void FlipPlayer(bool facingRight)
     {
         isFacingRight = facingRight;
-        spriteRenderer.flipX = !facingRight;
-
-        // Flip the ParticleSystem's GameObject directly
-        bulletParticle.transform.localRotation = Quaternion.Euler(0f, facingRight ? 0f : 180f, 0f);
+        transform.localRotation = Quaternion.Euler(0f, facingRight ? 0f : 180f, 0f);
     }
 
 
@@ -225,7 +225,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.collider.CompareTag("Platform") && playerAnimator.speed == 0)
+        if (other.otherCollider == capsuleCollider2D && other.collider.CompareTag("Platform") && playerAnimator.speed == 0)
         {
             audioSource.PlayOneShot(landClip);
             playerAnimator.speed = 1;
@@ -236,12 +236,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        if (other.collider.CompareTag("Platform"))
+        if (other.otherCollider == capsuleCollider2D && other.collider.CompareTag("Platform"))
         {
             playerAnimator.SetBool("isGrounded", false);
         }
 
-        if (other.collider.CompareTag("Platform") && rb2d.velocity.y < 0.25)
+        if (other.otherCollider == capsuleCollider2D && other.collider.CompareTag("Platform") && rb2d.velocity.y < 0.25)
         {
             playerAnimator.SetBool("isGrounded", false);
             Falling();
@@ -250,10 +250,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.GetComponent<EnemyController>() != null)
+        if (other.otherCollider == boxCollider2D && other.gameObject.GetComponent<EnemyController>())
         {
-            if (meleeAttack)
-                other.gameObject.GetComponent<EnemyController>().TakeDamage(10);
+            other.gameObject.GetComponent<EnemyController>().TakeDamage(staffDmg);
         }
     }
 

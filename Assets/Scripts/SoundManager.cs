@@ -108,9 +108,9 @@ public enum Sounds
 {
     lobbyBgm,
     levelBgm,
-    playerJump,
-    playerLand,
     playerDied,
+    levelComplete,
+    enemyDied,
     startBtn,
     confirmBtn,
     optionsBtn,

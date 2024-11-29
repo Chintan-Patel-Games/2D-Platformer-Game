@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 1133066495}
   - component: {fileID: 5760507159121283414}
   - component: {fileID: 1133066496}
+  - component: {fileID: 4637912759715801109}
   - component: {fileID: 4646172804443323651}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: c4d7d6470acd7bf45971042161c6e018, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -185,12 +186,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7824db8f5c035d04880af21eb499db60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameCompleteController: {fileID: 0}
   gameOverController: {fileID: 0}
   uiController: {fileID: 0}
   bulletParticle: {fileID: 3739861728046744960}
-  runSpeed: 10
+  speed: 10
   jumpForce: 35
+  staffDmg: 10
   audioSource: {fileID: 4646172804443323651}
   jumpClip: {fileID: 8300000, guid: e5cb0976ee7cf93489107ede5175519b, type: 3}
   landClip: {fileID: 8300000, guid: ea217dc637f73b649a2866febb99c4a2, type: 3}
@@ -215,6 +216,51 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 442e955683fe3a44a9ec3075f9140bc0, type: 3}
   - {fileID: 8300000, guid: 328365d0fef474487b0826fc1049de57, type: 3}
   - {fileID: 8300000, guid: 81448fec9f15a4b5c87004cff6ad1d44, type: 3}
+--- !u!61 &4637912759715801109
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2678946843311272035}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.8, y: 0.85}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.42, y: 0.1}
+    oldSize: {x: 3.7534883, y: 2.8325582}
+    newSize: {x: 3.7534883, y: 2.8325582}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.3, y: 0.5}
+  m_EdgeRadius: 0
 --- !u!82 &4646172804443323651
 AudioSource:
   m_ObjectHideFlags: 0
@@ -322,7 +368,8 @@ GameObject:
   - component: {fileID: 7129743458762475679}
   - component: {fileID: 3739861728046744960}
   - component: {fileID: 4336225991838076602}
-  m_Layer: 6
+  - component: {fileID: 2925023603580532291}
+  m_Layer: 3
   m_Name: Bullets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -359,7 +406,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -427,7 +474,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -534,7 +581,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.07720737, b: 0, a: 1}
+      maxColor: {r: 1, g: 0.078431375, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -598,7 +645,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.25
+      scalar: 0.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3933,7 +3980,7 @@ ParticleSystem:
     enabled: 1
     serializedVersion: 4
     type: 1
-    collisionMode: 1
+    collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
@@ -4100,7 +4147,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 0
     maxKillSpeed: 10000
-    radiusScale: 1
+    radiusScale: 1.5
     collidesWith:
       serializedVersion: 2
       m_Bits: 145
@@ -4108,7 +4155,7 @@ ParticleSystem:
     quality: 0
     voxelSize: 0.5
     collisionMessages: 1
-    collidesWithDynamic: 0
+    collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
     enabled: 0
@@ -4245,7 +4292,7 @@ ParticleSystem:
         m_RotationOrder: 4
     maxLights: 20
   TrailModule:
-    enabled: 1
+    enabled: 0
     mode: 0
     ratio: 1
     lifetime:
@@ -5089,7 +5136,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 8c69763446fb3664b939fdd8e803f70a, type: 2}
-  - {fileID: 2100000, guid: 8c69763446fb3664b939fdd8e803f70a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5109,8 +5155,8 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_RenderMode: 4
+  m_SortingOrder: 5
+  m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -5142,3 +5188,15 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &2925023603580532291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7613822353809990128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60cebcafe1a5afe47b47fa38421f75ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

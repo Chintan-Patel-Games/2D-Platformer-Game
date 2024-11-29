@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -5,11 +6,23 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float moveSpeed;
     [SerializeField] GameObject pointA;
     [SerializeField] GameObject pointB;
+
+    [Tooltip("Reference to the AudioSource")]
+    [SerializeField] AudioSource audioSource;
+
+    [Tooltip("Array of attack sounds")]
+    [SerializeField] AudioClip[] attackClips;
+
+    [Tooltip("Array of footsteps sounds")]
+    [SerializeField] AudioClip[] footstepClips;
+    private Animator enemyAnimator;
     private Transform currentPoint;
     private int health = 5;
+    private bool canAttack = true;
 
     private void Start()
     {
+        enemyAnimator = GetComponent<Animator>();
         currentPoint = pointB.transform;
     }
 
@@ -49,20 +62,70 @@ public class EnemyController : MonoBehaviour
         transform.localScale = localScale;
     }
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.GetComponent<PlayerController>() && other as CapsuleCollider2D)
+        {
+            if (canAttack)
+                StartCoroutine(Attack(other.gameObject.GetComponent<PlayerController>()));
+        }
+    }
+
+    private IEnumerator Attack(PlayerController player)
+    {
+        canAttack = false;
+        enemyAnimator.SetTrigger("attack");
+        StartCoroutine(TakePlayerLives(player));
+
+        // Wait for cooldown period
+        yield return new WaitForSeconds(3f);
+        canAttack = true;
+    }
+
+    private IEnumerator TakePlayerLives(PlayerController player)
+    {
+        yield return new WaitForSeconds(0.15f);
+        if (player != null)
+        {
+            player.TakeLives();
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         health = health - damage;
         if (health < 0)
         {
-            Destroy(gameObject);
+            StartCoroutine(HandleDeath());
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private IEnumerator HandleDeath()
     {
-        if (other.gameObject.GetComponent<PlayerController>() != null)
+        SoundManager.Instance.Play(Sounds.enemyDied);
+        enemyAnimator.SetTrigger("isDead");
+        yield return new WaitForSeconds(0.5f);
+        Destroy(gameObject);
+    }
+
+    // This method is called via animation events
+    public void PlayFootstepSounds()
+    {
+        if (footstepClips.Length > 0)
         {
-            // other.gameObject.GetComponent<PlayerController>().TakeLives();
+            // Randomize footstep sound for variety
+            AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
+            audioSource.PlayOneShot(clip);
+        }
+    }
+
+    public void PlayAttackSounds()
+    {
+        if (attackClips.Length > 0)
+        {
+            // Randomize footstep sound for variety
+            AudioClip clip = attackClips[Random.Range(0, attackClips.Length)];
+            audioSource.PlayOneShot(clip);
         }
     }
 }

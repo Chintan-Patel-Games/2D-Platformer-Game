@@ -5,6 +5,7 @@ using System;
 
 public class GameCompleteController : MonoBehaviour
 {
+    [SerializeField] Animator gameCompleteAnimator;
     [SerializeField] Button nextLevelBtn;
     [SerializeField] Button homeBtn;
 
@@ -13,8 +14,15 @@ public class GameCompleteController : MonoBehaviour
         nextLevelBtn.onClick.AddListener(NextLevel);
         homeBtn.onClick.AddListener(Home);
     }
+
+    private void Start()
+    {
+        gameCompleteAnimator = GetComponent<Animator>();
+    }
+
     public void GameComplete()
     {
+        SoundManager.Instance.Play(Sounds.levelComplete);
         Time.timeScale = 0;
         gameObject.SetActive(true);
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
@@ -24,7 +32,7 @@ public class GameCompleteController : MonoBehaviour
             nextLevelBtn.interactable = false;
         }
     }
-
+    
     public void NextLevel()
     {
         SoundManager.Instance.Play(Sounds.startBtn);

@@ -1712,6 +1712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 136d5b59111a556418084c8067a64676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCompleteAnimator: {fileID: 0}
   nextLevelBtn: {fileID: 5997336047394113275}
   homeBtn: {fileID: 5129541724637281291}
 --- !u!1 &3527498499230209288

@@ -18,6 +18,7 @@ public class GameOverController : MonoBehaviour
     {
         gameOverAnimator = GetComponent<Animator>();
     }
+    
     public void PlayerDied()
     {
         SoundManager.Instance.Play(Sounds.playerDied);
