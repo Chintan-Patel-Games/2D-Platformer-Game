@@ -2,12 +2,17 @@ using UnityEngine;
 
 public class LevelComplete : MonoBehaviour
 {
+    [SerializeField] GameCompleteController gameCompleteController;
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<PlayerController>() != null)
+        if (other.gameObject.GetComponent<PlayerController>() != null && other as CapsuleCollider2D)
         {
             LevelManager.Instance.MarkLevelComplete();
-            other.gameObject.GetComponent<PlayerController>().LevelComplete();
+            if (other.gameObject.GetComponent<PlayerController>().Keys == 3)
+            {
+                other.gameObject.GetComponent<PlayerController>().enabled = false;
+                gameCompleteController.GameComplete();
+            }
         }
     }
 }
