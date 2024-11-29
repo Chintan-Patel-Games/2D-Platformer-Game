@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyController : MonoBehaviour
@@ -11,6 +13,7 @@ public class LobbyController : MonoBehaviour
     [SerializeField] Button optionsBackBtn;
     [SerializeField] Button optionsBtn;
     [SerializeField] Button quitBtn;
+    private bool isLoading = false;
 
     private void Awake()
     {

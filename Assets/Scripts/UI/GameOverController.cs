@@ -13,11 +13,6 @@ public class GameOverController : MonoBehaviour
         restartBtn.onClick.AddListener(ReloadLevel);
         homeBtn.onClick.AddListener(Home);
     }
-
-    private void Start()
-    {
-        gameOverAnimator = GetComponent<Animator>();
-    }
     
     public void PlayerDied()
     {

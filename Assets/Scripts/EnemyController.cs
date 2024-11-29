@@ -3,8 +3,17 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    
+    [Tooltip("Enemy Health")]
+    [SerializeField] int health = 5;
+
+    [Tooltip("Enemy Move Speed")]
     [SerializeField] float moveSpeed;
+
+    [Tooltip("Patrol Endpoint 1")]
     [SerializeField] GameObject pointA;
+
+    [Tooltip("Patrol Endpoint 2")]
     [SerializeField] GameObject pointB;
 
     [Tooltip("Reference to the AudioSource")]
@@ -17,7 +26,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] AudioClip[] footstepClips;
     private Animator enemyAnimator;
     private Transform currentPoint;
-    private int health = 5;
     private bool canAttack = true;
 
     private void Start()
@@ -33,6 +41,12 @@ public class EnemyController : MonoBehaviour
 
     private void EnemyPatrol()
     {
+        MoveEnemy();
+        EndPointController();
+    }
+
+    private void MoveEnemy()
+    {
         if (currentPoint.transform == pointB.transform)
         {
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
@@ -41,21 +55,26 @@ public class EnemyController : MonoBehaviour
         {
             transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
         }
+    }
 
+    private void EndPointController()
+    {
+        // Check Enmey reached at EndPoint 2
         if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointB.transform)
         {
-            Flip();
+            FlipEnemy();
             currentPoint = pointA.transform;
         }
 
+        // Check Enmey reached at EndPoint 1
         if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointA.transform)
         {
-            Flip();
+            FlipEnemy();
             currentPoint = pointB.transform;
         }
     }
 
-    private void Flip()
+    private void FlipEnemy()
     {
         Vector3 localScale = transform.localScale;
         localScale.x *= -1;
@@ -84,7 +103,7 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator TakePlayerLives(PlayerController player)
     {
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.25f);
         if (player != null)
         {
             player.TakeLives();
@@ -113,17 +132,18 @@ public class EnemyController : MonoBehaviour
     {
         if (footstepClips.Length > 0)
         {
-            // Randomize footstep sound for variety
+            // Randomize footstep sounds
             AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
             audioSource.PlayOneShot(clip);
         }
     }
 
+    // This method is called via animation events
     public void PlayAttackSounds()
     {
         if (attackClips.Length > 0)
         {
-            // Randomize footstep sound for variety
+            // Randomize attack sounds
             AudioClip clip = attackClips[Random.Range(0, attackClips.Length)];
             audioSource.PlayOneShot(clip);
         }
