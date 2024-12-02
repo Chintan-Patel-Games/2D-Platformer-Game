@@ -1714,7 +1714,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextLevelBtn: {fileID: 5997336047394113275}
   homeBtn: {fileID: 5129541724637281291}
-  disabledBtnTextColor: {r: 0.5254902, g: 0.36078432, b: 0.20392157, a: 1}
 --- !u!1 &3527498499230209288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,7 +1725,6 @@ GameObject:
   - component: {fileID: 5487758823739625149}
   - component: {fileID: 3992677390026242654}
   - component: {fileID: 1181292055332343690}
-  - component: {fileID: 7475170541124738851}
   m_Layer: 5
   m_Name: Player
   m_TagString: Untagged
@@ -1791,27 +1789,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &7475170541124738851
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3527498499230209288}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b7107b309bea39740815aaf61bb0501f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3814470015308992159
 GameObject:
   m_ObjectHideFlags: 0

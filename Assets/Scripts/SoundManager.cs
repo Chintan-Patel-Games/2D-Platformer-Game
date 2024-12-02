@@ -6,11 +6,10 @@ public class SoundManager : MonoBehaviour
 {
     private static SoundManager soundManager;
     public static SoundManager Instance { get { return soundManager; } }
-    public AudioSource SFX;
-    public AudioSource BGM;
-    public SoundType[] Sounds;
-    public bool isMute = false;
-    public float Volume;
+    [SerializeField] public AudioSource SFX;
+    [SerializeField] public AudioSource BGM;
+    [SerializeField] SoundType[] Sounds;
+    [SerializeField] bool isMute = false;
 
     private void Awake()
     {
@@ -87,12 +86,16 @@ public class SoundManager : MonoBehaviour
     public void Mute(bool status)
     {
         isMute = status;
+        BGM.mute = status;
     }
 
-    public void SetVolume(float volume)
+    public void SetSFXVol(float volume)
     {
-        Volume = volume;
         SFX.volume = volume;
+    }
+
+    public void SetBGMVol(float volume)
+    {
         BGM.volume = volume;
     }
 }

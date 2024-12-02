@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1228.8
     height: 728
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Inspector
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 41
+  controlID: 89
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -245,17 +245,17 @@ MonoBehaviour:
     y: 451.2
     width: 868.8
     height: 226.79999
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 16}
+  m_MinSize: {x: 231, y: 271}
+  m_MaxSize: {x: 10001, y: 10021}
+  m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
   - {fileID: 16}
   - {fileID: 17}
   - {fileID: 18}
   - {fileID: 19}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -304,9 +304,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 224
+    x: 207.2
     y: 73.6
-    width: 714.8
+    width: 659.6
     height: 430.2
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -351,7 +351,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 0
+    m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -360,10 +360,10 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 714.8
+      width: 659.6
       height: 409.2
-    m_Scale: {x: 0.46536458, y: 0.46536458}
-    m_Translation: {x: 357.4, y: 204.6}
+    m_Scale: {x: 0.42942706, y: 0.42942706}
+    m_Translation: {x: 329.8, y: 204.6}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
@@ -371,12 +371,12 @@ MonoBehaviour:
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
       x: -768
-      y: -439.6553
+      y: -476.4488
       width: 1536
-      height: 879.3106
+      height: 952.8976
     m_MinimalGUI: 1
-  m_defaultScale: 0.46536458
-  m_LastWindowPixelSize: {x: 893.5, y: 537.75}
+  m_defaultScale: 0.42942706
+  m_LastWindowPixelSize: {x: 824.5, y: 537.75}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 0
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -420,23 +420,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: d2ceffff
-      m_LastClickedID: -12590
-      m_ExpandedIDs: d4ceffff48d3ffffdafaffff
+      m_SelectedIDs: d2c5ffff
+      m_LastClickedID: -14894
+      m_ExpandedIDs: d6bfffff92c5ffffb2c5ffffd2c5ffffdafafffff4ffffff1e5c0000de5c0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: Soundmanager
+        m_OriginalName: Soundmanager
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -1320
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 8}
       m_SearchString: 
@@ -816,9 +816,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 547.7966, y: 69.734566, z: -1.263761}
+    m_Target: {x: 1122.5618, y: 548.30536, z: -3.8746016}
     speed: 2
-    m_Value: {x: 547.7966, y: 69.734566, z: -1.263761}
+    m_Value: {x: 1123.606, y: 542.0045, z: -3.6927767}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -868,9 +868,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 161.15683
+    m_Target: 422.238
     speed: 2
-    m_Value: 161.15683
+    m_Value: 404.0555
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -941,24 +941,24 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Audio/Music
+    - Assets/Art/Sprites/UI/Menu
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 1
-  m_StartGridSize: 16
+  m_StartGridSize: 67
   m_LastFolders:
-  - Assets/Audio/Music
-  m_LastFoldersGridSize: 16
+  - Assets/Art/Sprites/UI/Menu
+  m_LastFoldersGridSize: 67
   m_LastProjectPath: D:\Chintan\Outscal\Unity Projects\2D-Platformer-Game
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 114.20001}
-    m_SelectedIDs: 1e710000
-    m_LastClickedID: 28958
-    m_ExpandedIDs: 00000000b45e0000946100009c61000012710000
+    scrollPos: {x: 0, y: 130.20001}
+    m_SelectedIDs: cc820000
+    m_LastClickedID: 33484
+    m_ExpandedIDs: 00000000c65e0000e66b00005677000096820000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -986,7 +986,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 240}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000b45e0000b65e0000b85e0000ba5e0000
+    m_ExpandedIDs: 00000000c65e0000c85e0000ca5e0000cc5e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1011,24 +1011,24 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: d2ceffff
-    m_LastClickedInstanceID: -12590
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: c6230000c66b0000d8570000ca6b0000ae6b0000fa5700008e9e0000ac940000000000009e5b0000fec00000cec00000
+    m_ExpandedInstanceIDs: c6230000c66b0000d8570000ca6b0000ae6b0000fa5700008e9e0000ac940000000000009e5b0000fec00000cec00000605d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Items
+      m_OriginalName: Items
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 29754
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 10}
     m_CreateAssetUtility:
@@ -1038,8 +1038,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
-    m_GridSize: 16
+    m_ScrollPosition: {x: 0, y: 42.200012}
+    m_GridSize: 67
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 276
 --- !u!114 &16
@@ -1204,7 +1204,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -12590
+  m_LastSelectedObjectID: -1320
 --- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52

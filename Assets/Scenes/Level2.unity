@@ -4348,6 +4348,11 @@ PrefabInstance:
       propertyPath: gameCompleteAnimator
       value: 
       objectReference: {fileID: 492330302}
+    - target: {fileID: 3465484106139057916, guid: fc050c0e718d22e4995411ee3ce566f5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4450734057841115276, guid: fc050c0e718d22e4995411ee3ce566f5,
         type: 3}
       propertyPath: m_Pivot.x
