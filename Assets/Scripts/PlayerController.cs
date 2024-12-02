@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -16,31 +18,16 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Staff Damage")]
     [SerializeField] int staffDmg = 10;
 
-    [Tooltip("Reference to the AudioSource")]
-    [SerializeField] AudioSource audioSource;
-
-    [Tooltip("Array of jump sounds")]
-    [SerializeField] AudioClip jumpClip;
-
-    [Tooltip("Array of land sounds")]
-    [SerializeField] AudioClip landClip;
-
-    [Tooltip("Array of footstep sounds")]
-    [SerializeField] AudioClip[] footstepClips;
-
-    [Tooltip("Array of hurt sounds")]
-    [SerializeField] AudioClip[] hurtClips;
-
-    [Tooltip("Array of melee sounds")]
-    [SerializeField] AudioClip[] meleeClips;
-
-    [Tooltip("Array of bullet sounds")]
-    [SerializeField] AudioClip[] bulletClips;
-
     private Animator playerAnimator;
     private Rigidbody2D rb2d;
     private CapsuleCollider2D capsuleCollider2D;
     private BoxCollider2D boxCollider2D;
+    private Sounds jumpClip; // Array of jump sounds
+    private Sounds landClip; // Array of land sounds
+    private Sounds[] footstepClips; // Array of footstep sounds
+    private Sounds[] hurtClips; // Array of hurt sounds
+    private Sounds[] meleeClips; // Array of melee sounds
+    private Sounds[] bulletClips; // Array of bullet sounds
     private bool isFacingRight = true;
     private bool isDead = false;
     private int lives = 3;
@@ -97,22 +84,27 @@ public class PlayerController : MonoBehaviour
         {
             bulletParticle.Emit(1);
 
+            bulletClips = Enum.GetValues(typeof(Sounds))
+                            .Cast<Sounds>()
+                            .Where(sound => sound.ToString().StartsWith("playerRanged"))
+                            .ToArray();
+
             if (bulletClips.Length > 0)
             {
-                // Randomize melee sound for variety
-                AudioClip clip = bulletClips[Random.Range(0, bulletClips.Length)];
-                audioSource.PlayOneShot(clip);
+                // Randomize bullet shot sound for variety
+                Sounds clip = bulletClips[UnityEngine.Random.Range(0, bulletClips.Length)];
+                SoundManager.Instance.Play(clip);
             }
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 10f);
-            if (hit.collider != null)
-            {
-                EnemyController enemy = hit.collider.GetComponent<EnemyController>();
-                if (enemy != null)
-                {
-                    enemy.TakeDamage(1);
-                }
-            }
+            // RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 10f);
+            // if (hit.collider != null)
+            // {
+            //     EnemyController enemy = hit.collider.GetComponent<EnemyController>();
+            //     if (enemy != null)
+            //     {
+            //         enemy.TakeDamage(1);
+            //     }
+            // }
         }
     }
 
@@ -123,11 +115,16 @@ public class PlayerController : MonoBehaviour
         {
             playerAnimator.SetTrigger("staffAttack");
 
+            meleeClips = Enum.GetValues(typeof(Sounds))
+                            .Cast<Sounds>()
+                            .Where(sound => sound.ToString().StartsWith("playerMelee"))
+                            .ToArray();
+
             if (meleeClips.Length > 0)
             {
                 // Randomize melee sound for variety
-                AudioClip clip = meleeClips[Random.Range(0, meleeClips.Length)];
-                audioSource.PlayOneShot(clip);
+                Sounds clip = meleeClips[UnityEngine.Random.Range(0, meleeClips.Length)];
+                SoundManager.Instance.Play(clip);
             }
         }
 
@@ -153,7 +150,8 @@ public class PlayerController : MonoBehaviour
     {
         if (jump && playerAnimator.GetBool("isGrounded") == true)
         {
-            audioSource.PlayOneShot(jumpClip);
+            jumpClip = Sounds.playerjump;
+            SoundManager.Instance.Play(jumpClip);
             rb2d.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
         }
     }
@@ -227,7 +225,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.otherCollider == capsuleCollider2D && other.collider.CompareTag("Platform") && playerAnimator.speed == 0)
         {
-            audioSource.PlayOneShot(landClip);
+            landClip = Sounds.playerLand;
+            SoundManager.Instance.Play(landClip);
             playerAnimator.speed = 1;
             playerAnimator.SetBool("isGrounded", true);
             playerAnimator.SetBool("isFalling", false);
@@ -259,22 +258,32 @@ public class PlayerController : MonoBehaviour
     // This method is called via animation events
     public void PlayFootstep()
     {
+        footstepClips = Enum.GetValues(typeof(Sounds))
+                            .Cast<Sounds>()
+                            .Where(sound => sound.ToString().StartsWith("playerFoots"))
+                            .ToArray();
+
         if (footstepClips.Length > 0)
         {
             // Randomize footstep sound for variety
-            AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
-            audioSource.PlayOneShot(clip);
+            Sounds clip = footstepClips[UnityEngine.Random.Range(0, footstepClips.Length)];
+            SoundManager.Instance.Play(clip);
         }
     }
 
     // This method is called via animation events
     public void PlayerHurt()
     {
+        hurtClips = Enum.GetValues(typeof(Sounds))
+                            .Cast<Sounds>()
+                            .Where(sound => sound.ToString().StartsWith("playerHurt"))
+                            .ToArray();
+                            
         if (hurtClips.Length > 0)
         {
             // Randomize footstep sound for variety
-            AudioClip clip = hurtClips[Random.Range(0, hurtClips.Length)];
-            audioSource.PlayOneShot(clip);
+            Sounds clip = hurtClips[UnityEngine.Random.Range(0, hurtClips.Length)];
+            SoundManager.Instance.Play(clip);
         }
         transform.position = transform.localPosition;
     }

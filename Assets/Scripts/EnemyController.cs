@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    
     [Tooltip("Enemy Health")]
     [SerializeField] int health = 5;
 
@@ -15,15 +16,8 @@ public class EnemyController : MonoBehaviour
 
     [Tooltip("Patrol Endpoint 2")]
     [SerializeField] GameObject pointB;
-
-    [Tooltip("Reference to the AudioSource")]
-    [SerializeField] AudioSource audioSource;
-
-    [Tooltip("Array of attack sounds")]
-    [SerializeField] AudioClip[] attackClips;
-
-    [Tooltip("Array of footsteps sounds")]
-    [SerializeField] AudioClip[] footstepClips;
+    private Sounds[] footstepClips; // Array of footsteps sounds
+    private Sounds[] attackClips; // Array of attack sounds
     private Animator enemyAnimator;
     private Transform currentPoint;
     private bool canAttack = true;
@@ -121,7 +115,7 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator HandleDeath()
     {
-        SoundManager.Instance.Play(Sounds.enemyDied);
+        SoundManager.Instance.Play(Sounds.chompDie);
         enemyAnimator.SetTrigger("isDead");
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
@@ -130,22 +124,32 @@ public class EnemyController : MonoBehaviour
     // This method is called via animation events
     public void PlayFootstepSounds()
     {
+        footstepClips = Enum.GetValues(typeof(Sounds))
+                        .Cast<Sounds>()
+                        .Where(sound => sound.ToString().StartsWith("chompFoots"))
+                        .ToArray();
+                    
         if (footstepClips.Length > 0)
         {
             // Randomize footstep sounds
-            AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
-            audioSource.PlayOneShot(clip);
+            Sounds clip = footstepClips[UnityEngine.Random.Range(0, footstepClips.Length)];
+            SoundManager.Instance.Play(clip);
         }
     }
 
     // This method is called via animation events
     public void PlayAttackSounds()
     {
+        attackClips = Enum.GetValues(typeof(Sounds))
+                    .Cast<Sounds>()
+                    .Where(sound => sound.ToString().StartsWith("chompAttack"))
+                    .ToArray();
+
         if (attackClips.Length > 0)
         {
             // Randomize attack sounds
-            AudioClip clip = attackClips[Random.Range(0, attackClips.Length)];
-            audioSource.PlayOneShot(clip);
+            Sounds clip = attackClips[UnityEngine.Random.Range(0, attackClips.Length)];
+            SoundManager.Instance.Play(clip);
         }
     }
 }

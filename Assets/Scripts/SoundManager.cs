@@ -106,11 +106,46 @@ public class SoundType
 
 public enum Sounds
 {
+    // BGM music
     lobbyBgm,
     levelBgm,
-    playerDied,
+
+    // UI SFX
     levelComplete,
-    enemyDied,
+
+    // Player Sounds
+    playerMelee1,
+    playerMelee2,
+    playerMelee3,
+    playerMelee4,
+    playerRanged1,
+    playerRanged2,
+    playerRanged3,
+    playerRanged4,
+    playerFoots1,
+    playerFoots2,
+    playerFoots3,
+    playerFoots4,
+    playerHurt1,
+    playerHurt2,
+    playerHurt3,
+    playerHurt4,
+    playerHurt5,
+    playerHurt6,
+    playerjump,
+    playerLand,
+    playerDied,
+
+    // Chomper Sounds
+    chompAttack1,
+    chompAttack2,
+    chompAttack3,
+    chompAttack4,
+    chompFoots1,
+    chompFoots2,
+    chompDie,
+
+    // Button Sounds
     startBtn,
     confirmBtn,
     optionsBtn,
