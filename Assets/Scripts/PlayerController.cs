@@ -247,9 +247,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.otherCollider == boxCollider2D && other.gameObject.GetComponent<EnemyController>())
+        if (other.IsTouching(boxCollider2D) && other.gameObject.GetComponent<EnemyController>())
         {
             other.gameObject.GetComponent<EnemyController>().TakeDamage(staffDmg);
         }
@@ -295,24 +295,6 @@ public class PlayerController : MonoBehaviour
         playerAnimator.SetBool("isFalling", true);
     }
 
-    public void TakeLives()
-    {
-        lives--;
-        playerAnimator.SetTrigger("takeDamage");
-        uiController.UpdateLives();
-
-        if (lives <= 0)
-            PlayerDeath();
-    }
-
-    public void PlayerDeath()
-    {
-        isDead = true;
-        playerAnimator.SetBool("isDead", true);
-        this.enabled = false;
-        StartCoroutine(PlayerDiedUI());
-    }
-
     private IEnumerator PlayerDiedUI()
     {
         yield return new WaitForSeconds(0.5f);
@@ -325,6 +307,36 @@ public class PlayerController : MonoBehaviour
             keys++;
         else
             return;
-        uiController.UpdateKeys();
+        uiController.UpdateKeysUI(keys);
+    }
+
+    public void PickHealthOrb()
+    {
+        lives++;
+        if (lives > 3)
+        {
+            lives = 3;
+            return;
+        }
+        else
+            uiController.GainLife(lives);
+    }
+
+    public void TakeLives()
+    {
+        lives--;
+        playerAnimator.SetTrigger("takeDamage");
+        uiController.TakeLife(lives);
+
+        if (lives <= 0)
+            PlayerDeath();
+    }
+
+    public void PlayerDeath()
+    {
+        isDead = true;
+        playerAnimator.SetBool("isDead", true);
+        this.enabled = false;
+        StartCoroutine(PlayerDiedUI());
     }
 }

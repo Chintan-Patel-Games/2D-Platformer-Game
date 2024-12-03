@@ -148,6 +148,14 @@ public enum Sounds
     chompFoots2,
     chompDie,
 
+    // Spitter Sounds
+    spitAttack1,
+    spitAttack2,
+    spitAttack3,
+    spitFoots1,
+    spitFoots2,
+    spitDie,
+
     // Button Sounds
     startBtn,
     confirmBtn,

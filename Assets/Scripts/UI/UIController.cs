@@ -1,66 +1,56 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] PlayerController playerController;
-    [SerializeField] Image[] life;
-    [SerializeField] GameObject[] keys;
-    [SerializeField] TextMeshProUGUI levelNo;
+    [Header("References")]
+    [SerializeField] private Animator[] lifeAnimators; // Array of Animators for each life
+    [SerializeField] private GameObject[] keyIcons;   // Array of key icons
+    [SerializeField] private TextMeshProUGUI levelNoText; // UI element to display the level number
 
     private void Start()
     {
-        GetLevelNo();
+        DisplayLevelNumber();
     }
 
-    public void UpdateLives()
+    // Call this when the player loses a life
+    public void TakeLife(int lifeIndex)
     {
-        if (playerController.Lives == 2)
+        if (IsValidLifeIndex(lifeIndex))
         {
-            life[2].enabled = false;
-        }
-        else if (playerController.Lives == 1)
-        {
-            life[1].enabled = false;
-        }
-        else if (playerController.Lives == 0)
-        {
-            life[0].enabled = false;
-        }
-        else
-        {
-            life[2].enabled = false;
-            life[1].enabled = false;
-            life[0].enabled = false;
-        }
-    }
-    public void UpdateKeys()
-    {
-        if (playerController.Keys == 1)
-        {
-            keys[0].SetActive(true);
-        }
-        else if (playerController.Keys == 2)
-        {
-            keys[1].SetActive(true);
-        }
-        else if (playerController.Keys == 3)
-        {
-            keys[2].SetActive(true);
-        }
-        else
-        {
-            keys[0].SetActive(false);
-            keys[1].SetActive(false);
-            keys[2].SetActive(false);
+            lifeAnimators[lifeIndex].SetTrigger("healthLost");
         }
     }
 
-    private void GetLevelNo()
+    // Call this when the player gains a life
+    public void GainLife(int lifeIndex)
     {
-        string currentLevelno = SceneManager.GetActiveScene().name;
-        levelNo.text = currentLevelno;
+        lifeIndex--;
+        if (IsValidLifeIndex(lifeIndex))
+        {
+            lifeAnimators[lifeIndex].SetTrigger("healthGain");
+        }
+    }
+
+    // Update the key icons based on the current key count
+    public void UpdateKeysUI(int currentKeys)
+    {
+        for (int i = 0; i < keyIcons.Length; i++)
+        {
+            keyIcons[i].SetActive(i < currentKeys);
+        }
+    }
+
+    // Display the current level number
+    private void DisplayLevelNumber()
+    {
+        levelNoText.text = $"Level: {SceneManager.GetActiveScene().name}";
+    }
+
+    // Validate if the given life index is within bounds
+    private bool IsValidLifeIndex(int index)
+    {
+        return index >= 0 && index < lifeAnimators.Length;
     }
 }
