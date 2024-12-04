@@ -11,15 +11,15 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject gamePaused;   // Game Paused UI
     [SerializeField] private TextMeshProUGUI levelNoText; // UI element to display the level number
     [SerializeField] private Button resumeBtn;
+    [SerializeField] private Button restartBtn;
     [SerializeField] private Button homeBtn;
-    [SerializeField] private Button quitBtn;
     private bool isPaused = false;
 
     private void Awake()
     {
         resumeBtn.onClick.AddListener(ResumeGame);
+        restartBtn.onClick.AddListener(RestartGame);
         homeBtn.onClick.AddListener(Home);
-        quitBtn.onClick.AddListener(QuitGame);
     }
 
     private void Start()
@@ -52,17 +52,19 @@ public class UIController : MonoBehaviour
         gamePaused.SetActive(false); // Hide the pause menu
     }
 
+    private void RestartGame()
+    {
+        SoundManager.Instance.Play(Sounds.quitBtn);
+        Time.timeScale = 1; // Resume time before navigating
+        int currentLevel = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentLevel);
+    }
+
     private void Home()
     {
         SoundManager.Instance.Play(Sounds.startBtn);
         Time.timeScale = 1; // Resume time before navigating
         SceneManager.LoadScene((int)LevelList.Lobby);
-    }
-
-    private void QuitGame()
-    {
-        SoundManager.Instance.Play(Sounds.quitBtn);
-        Application.Quit(); // Quit the application
     }
 
     // Display the current level number

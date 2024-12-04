@@ -369,6 +369,36 @@ PrefabInstance:
       propertyPath: gameOverController
       value: 
       objectReference: {fileID: 104971285}
+    - target: {fileID: 288268462112629160, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 288268462112629160, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1992878899
+      objectReference: {fileID: 0}
+    - target: {fileID: 2008054129143609885, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2008054129143609885, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2008054129143609885, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2008054129143609885, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1992878899
+      objectReference: {fileID: 0}
     - target: {fileID: 2678946843311272035, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5,
         type: 3}
       propertyPath: m_Name

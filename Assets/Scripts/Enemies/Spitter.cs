@@ -20,6 +20,7 @@ public class Spitter : EnemyController
         {
             enemyAnimator = GetComponent<Animator>(); // Fallback to default
         }
+        health = 20;
     }
 
     public override IEnumerator Attack(PlayerController player)

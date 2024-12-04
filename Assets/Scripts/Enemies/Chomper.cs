@@ -20,6 +20,7 @@ public class Chomper : EnemyController
         {
             enemyAnimator = GetComponent<Animator>(); // Fallback to default
         }
+        health = 10;
     }
 
     public override IEnumerator Attack(PlayerController player)

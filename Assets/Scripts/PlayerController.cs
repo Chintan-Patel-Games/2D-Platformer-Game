@@ -183,6 +183,9 @@ public class PlayerController : MonoBehaviour
     {
         isFacingRight = facingRight;
         transform.localRotation = Quaternion.Euler(0f, facingRight ? 0f : 180f, 0f);
+
+        var main = bulletParticle.main;
+        main.startRotation = facingRight ? 0f : Mathf.PI;
     }
 
 
@@ -278,7 +281,7 @@ public class PlayerController : MonoBehaviour
                             .Cast<Sounds>()
                             .Where(sound => sound.ToString().StartsWith("playerHurt"))
                             .ToArray();
-                            
+
         if (hurtClips.Length > 0)
         {
             // Randomize footstep sound for variety

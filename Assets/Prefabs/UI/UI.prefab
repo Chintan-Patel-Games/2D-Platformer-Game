@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 3031678158677460683}
   - component: {fileID: 2374064071971043494}
   m_Layer: 5
-  m_Name: Home_Btn
+  m_Name: Restart_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1195,8 +1195,8 @@ MonoBehaviour:
   gamePaused: {fileID: 6993340799655577809}
   levelNoText: {fileID: 5490732986441811542}
   resumeBtn: {fileID: 8623375200229500868}
-  homeBtn: {fileID: 2374064071971043494}
-  quitBtn: {fileID: 7817815379838057646}
+  restartBtn: {fileID: 2374064071971043494}
+  homeBtn: {fileID: 7817815379838057646}
 --- !u!1 &2342049570807839996
 GameObject:
   m_ObjectHideFlags: 0
@@ -2477,7 +2477,7 @@ GameObject:
   - component: {fileID: 5591424266187967040}
   - component: {fileID: 7817815379838057646}
   m_Layer: 5
-  m_Name: Quit_Btn
+  m_Name: Home_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2892,7 +2892,7 @@ GameObject:
   - component: {fileID: 6207133201109761381}
   - component: {fileID: 5403692364396901659}
   m_Layer: 5
-  m_Name: Home_Text
+  m_Name: Restart_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2945,7 +2945,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Home
+  m_text: Restart
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4c1f115f2c9b80b4cabb22cae230db1c, type: 2}
   m_sharedMaterial: {fileID: 21498813622556604, guid: 4c1f115f2c9b80b4cabb22cae230db1c,
@@ -3274,7 +3274,7 @@ GameObject:
   - component: {fileID: 3128584099186230748}
   - component: {fileID: 6016302016344220804}
   m_Layer: 5
-  m_Name: Quit_Text
+  m_Name: Home_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3327,7 +3327,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Quit
+  m_text: Home
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4c1f115f2c9b80b4cabb22cae230db1c, type: 2}
   m_sharedMaterial: {fileID: 21498813622556604, guid: 4c1f115f2c9b80b4cabb22cae230db1c,

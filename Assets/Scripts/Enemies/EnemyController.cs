@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour, IEnemy
 {
-    [SerializeField] private int health;
+    [SerializeField] protected int health;
     [SerializeField] private float moveSpeed;
     [SerializeField] private GameObject pointA;
     [SerializeField] private GameObject pointB;
