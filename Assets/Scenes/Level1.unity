@@ -429,27 +429,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5, type: 3}
---- !u!114 &492330299 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1133066496, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5,
-    type: 3}
-  m_PrefabInstance: {fileID: 492330298}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7824db8f5c035d04880af21eb499db60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &492330300 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5753859673624876738, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5,
-    type: 3}
-  m_PrefabInstance: {fileID: 492330298}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &492330302 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5007907468796686596, guid: e8aca17e4aa49dc4aaf7f22cc6a23fb5,
     type: 3}
   m_PrefabInstance: {fileID: 492330298}
   m_PrefabAsset: {fileID: 0}
@@ -10846,21 +10828,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
-    - target: {fileID: 2759886112617226394, guid: fc050c0e718d22e4995411ee3ce566f5,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3412136553271691431, guid: fc050c0e718d22e4995411ee3ce566f5,
-        type: 3}
-      propertyPath: gameCompleteAnimator
-      value: 
-      objectReference: {fileID: 492330302}
-    - target: {fileID: 3465484106139057916, guid: fc050c0e718d22e4995411ee3ce566f5,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4450734057841115276, guid: fc050c0e718d22e4995411ee3ce566f5,
         type: 3}
       propertyPath: m_Pivot.x
@@ -10961,11 +10928,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6238853916741501468, guid: fc050c0e718d22e4995411ee3ce566f5,
-        type: 3}
-      propertyPath: playerController
-      value: 
-      objectReference: {fileID: 492330299}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
