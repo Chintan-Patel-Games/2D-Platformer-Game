@@ -22,14 +22,13 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb2d;
     private CapsuleCollider2D capsuleCollider2D;
     private BoxCollider2D boxCollider2D;
-    private Sounds jumpClip; // Array of jump sounds
-    private Sounds landClip; // Array of land sounds
+    private Sounds jumpClip; // Jump sounds
+    private Sounds landClip; // Land sounds
     private Sounds[] footstepClips; // Array of footstep sounds
     private Sounds[] hurtClips; // Array of hurt sounds
     private Sounds[] meleeClips; // Array of melee sounds
     private Sounds[] bulletClips; // Array of bullet sounds
     private bool isFacingRight = true;
-    private bool isDead = false;
     private int lives = 3;
     public int Lives { get { return lives; } }
     private int keys = 0;
@@ -70,7 +69,7 @@ public class PlayerController : MonoBehaviour
     // Move Run Player position
     private void MovePos(float moveSpeed)
     {
-        if (playerAnimator.GetBool("isCrouching") == false && !isDead)
+        if (playerAnimator.GetBool("isCrouching") == false && playerAnimator.GetBool("isDead") == false)
         {
             Vector3 movePos = transform.position;
             movePos.x += moveSpeed * speed * Time.deltaTime;
@@ -337,7 +336,6 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerDeath()
     {
-        isDead = true;
         playerAnimator.SetBool("isDead", true);
         this.enabled = false;
         StartCoroutine(PlayerDiedUI());
