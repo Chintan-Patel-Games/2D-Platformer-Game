@@ -7,6 +7,8 @@ public class GameOverController : MonoBehaviour
     [SerializeField] Animator gameOverAnimator;
     [SerializeField] Button restartBtn;
     [SerializeField] Button homeBtn;
+    private bool isGameOver = false;
+    public bool IsGameOver { get { return isGameOver; } }
 
     private void Awake()
     {
@@ -18,6 +20,7 @@ public class GameOverController : MonoBehaviour
     {
         SoundManager.Instance.Play(Sounds.playerDied);
         Time.timeScale = 0;
+        isGameOver = true;
         gameObject.SetActive(true);
         PlayGameOverAnimation();
     }
@@ -38,6 +41,7 @@ public class GameOverController : MonoBehaviour
     {
         SoundManager.Instance.Play(Sounds.startBtn);
         Time.timeScale = 1;
+        isGameOver = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -45,6 +49,7 @@ public class GameOverController : MonoBehaviour
     {
         SoundManager.Instance.Play(Sounds.backBtn);
         Time.timeScale = 1;
+        isGameOver = false;
         SceneManager.LoadScene((int)LevelList.Lobby);
     }
 }

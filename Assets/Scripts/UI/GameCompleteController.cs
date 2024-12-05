@@ -6,6 +6,8 @@ public class GameCompleteController : MonoBehaviour
 {
     [SerializeField] Button nextLevelBtn;
     [SerializeField] Button homeBtn;
+    private bool isGameComplete;
+    public bool IsGameComplete { get { return isGameComplete; } }
 
     private void Awake()
     {
@@ -17,6 +19,7 @@ public class GameCompleteController : MonoBehaviour
     {
         SoundManager.Instance.Play(Sounds.levelComplete);
         Time.timeScale = 0;
+        isGameComplete = true;
         gameObject.SetActive(true);
     }
     
@@ -24,6 +27,7 @@ public class GameCompleteController : MonoBehaviour
     {
         SoundManager.Instance.Play(Sounds.startBtn);
         Time.timeScale = 1;
+        isGameComplete = false;
 
         // Get the current scene
         Scene currentLevel = SceneManager.GetActiveScene();
@@ -54,6 +58,7 @@ public class GameCompleteController : MonoBehaviour
     {
         SoundManager.Instance.Play(Sounds.backBtn);
         Time.timeScale = 1;
+        isGameComplete = false;
         SceneManager.LoadScene((int)LevelList.Lobby);
     }
 }

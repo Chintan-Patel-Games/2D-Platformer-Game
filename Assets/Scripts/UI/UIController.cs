@@ -8,8 +8,10 @@ public class UIController : MonoBehaviour
 {
     [SerializeField] private Animator[] lifeAnimators; // Array of Animators for each life
     [SerializeField] private GameObject[] keyIcons;   // Array of key icons
-    [SerializeField] private GameObject gamePaused;   // Game Paused UI
     [SerializeField] private TextMeshProUGUI levelNoText; // UI element to display the level number
+    [SerializeField] private GameCompleteController gameComplete;   // Game Complete UI
+    [SerializeField] private GameOverController gameOver;   // Game Over UI
+    [SerializeField] private GameObject gamePaused;   // Game Paused UI
     [SerializeField] private Button resumeBtn;
     [SerializeField] private Button restartBtn;
     [SerializeField] private Button homeBtn;
@@ -20,6 +22,7 @@ public class UIController : MonoBehaviour
         resumeBtn.onClick.AddListener(ResumeGame);
         restartBtn.onClick.AddListener(RestartGame);
         homeBtn.onClick.AddListener(Home);
+        
     }
 
     private void Start()
@@ -30,7 +33,7 @@ public class UIController : MonoBehaviour
     private void Update()
     {
         // Check if Escape key is pressed
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameOver.IsGameOver && !gameComplete.IsGameComplete)
         {
             TogglePause(); // Toggle pause when Escape is pressed
         }
