@@ -632,6 +632,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 2176934142191325014, guid: 6b14d05957b78be48a6ce735fef96434,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 492330301}
     - target: {fileID: 4800896321432099735, guid: 6b14d05957b78be48a6ce735fef96434,
         type: 3}
       propertyPath: target
@@ -994,6 +999,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2176934142191325014, guid: 6b14d05957b78be48a6ce735fef96434,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 492330301}
     - target: {fileID: 4800896321432099735, guid: 6b14d05957b78be48a6ce735fef96434,
         type: 3}
       propertyPath: target
@@ -4623,6 +4633,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chomper
       objectReference: {fileID: 0}
+    - target: {fileID: 2176934142191325014, guid: 6b14d05957b78be48a6ce735fef96434,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 492330301}
     - target: {fileID: 4800896321432099735, guid: 6b14d05957b78be48a6ce735fef96434,
         type: 3}
       propertyPath: target

@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Platform
+  - Enemy
+  - Spikes
   layers:
   - Default
   - TransparentFX
@@ -12,10 +14,10 @@ TagManager:
   - Player
   - Water
   - UI
-  - Layer
   - Enemy
   - 
-  - PostProcessing
+  - 
+  - 
   - 
   - 
   - 
@@ -39,12 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
-    locked: 0
-  - name: Player
+  - name: BackGround
     uniqueID: 2302088397
     locked: 0
-  - name: Level
-    uniqueID: 2800252467
+  - name: Default
+    uniqueID: 0
     locked: 0

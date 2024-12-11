@@ -7,8 +7,11 @@ public class HealthOrbsController : MonoBehaviour
         if (other.gameObject.GetComponent<PlayerController>() != null && other as CapsuleCollider2D)
         {
             PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
-            playerController.PickHealthOrb();
-            Destroy(gameObject);
+            if (playerController.Lives < 3)
+            {
+                playerController.PickHealthOrb();
+                Destroy(gameObject);
+            }
         }
     }
 }

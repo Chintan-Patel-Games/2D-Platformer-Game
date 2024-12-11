@@ -14,8 +14,8 @@ public class EnemyController : MonoBehaviour, IEnemy
     // IEnemy Properties
     public int Health { get; set; }
     public float MoveSpeed { get; set; }
-    public GameObject PointA { get; set; }
-    public GameObject PointB { get; set; }
+    public GameObject PointA { get; }
+    public GameObject PointB { get; }
     public Sounds[] FootstepClips { get; set; }
     public Sounds[] AttackClips { get; set; }
     public bool CanAttack => canAttack;

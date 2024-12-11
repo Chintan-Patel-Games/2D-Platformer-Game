@@ -5,8 +5,8 @@ public interface IEnemy
 {
     int Health { get; set; }
     float MoveSpeed { get; set; }
-    GameObject PointA { get; set; }
-    GameObject PointB { get; set; }
+    GameObject PointA { get; }
+    GameObject PointB { get; }
     Sounds[] FootstepClips { get; set; }
     Sounds[] AttackClips { get; set; }
     bool CanAttack { get; }
