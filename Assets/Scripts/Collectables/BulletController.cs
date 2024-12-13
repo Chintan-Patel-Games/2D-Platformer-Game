@@ -4,9 +4,10 @@ public class BulletController : MonoBehaviour
 {
     private void OnParticleCollision(GameObject other)
     {
-        if (other.GetComponent<EnemyController>() != null)
+        EnemyController enemyController = other.GetComponent<EnemyController>();
+        if (enemyController != null)
         {
-            other.GetComponent<EnemyController>().TakeDamage(2); // Damage enemy
+            enemyController.TakeDamage(2); // Damage enemy
         }
     }
 }

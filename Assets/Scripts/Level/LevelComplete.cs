@@ -5,12 +5,13 @@ public class LevelComplete : MonoBehaviour
     [SerializeField] GameCompleteController gameCompleteController;
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<PlayerController>() != null && other as CapsuleCollider2D)
+        PlayerController playerController = other.GetComponent<PlayerController>();
+        if (playerController != null && other as CapsuleCollider2D)
         {
             LevelManager.Instance.MarkLevelComplete();
-            if (other.gameObject.GetComponent<PlayerController>().Keys == 3)
+            if (playerController.Keys == 3)
             {
-                other.gameObject.GetComponent<PlayerController>().enabled = false;
+                playerController.enabled = false;
                 gameCompleteController.GameComplete();
             }
         }

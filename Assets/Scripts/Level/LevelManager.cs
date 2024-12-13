@@ -35,7 +35,7 @@ public class LevelManager : MonoBehaviour
             else
             {
                 // Lock all other levels
-                PlayerPrefs.SetInt(level.ToString(), (int)LevelStatus.Locked);
+                PlayerPrefs.SetInt(level.ToString(), (int)LevelStatus.Unlocked);
             }
         }
         PlayerPrefs.Save();

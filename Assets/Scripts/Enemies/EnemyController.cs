@@ -75,10 +75,11 @@ public class EnemyController : MonoBehaviour, IEnemy
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<PlayerController>() && other as CapsuleCollider2D)
+        PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+        if (playerController != null && other as CapsuleCollider2D)
         {
             if (canAttack)
-                StartCoroutine(Attack(other.gameObject.GetComponent<PlayerController>()));
+                StartCoroutine(Attack(playerController));
         }
     }
 
