@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour, IEnemy
     [SerializeField] private GameObject pointB;
     protected Animator enemyAnimator;
     protected bool canAttack = true;
+    protected bool isInRange = false;
     private Transform currentPoint;
 
     // IEnemy Properties
@@ -19,6 +20,7 @@ public class EnemyController : MonoBehaviour, IEnemy
     public Sounds[] FootstepClips { get; set; }
     public Sounds[] AttackClips { get; set; }
     public bool CanAttack => canAttack;
+    public bool IsInRange => isInRange;
 
     private void Start()
     {
@@ -76,10 +78,32 @@ public class EnemyController : MonoBehaviour, IEnemy
     private void OnTriggerStay2D(Collider2D other)
     {
         PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
-        if (playerController != null && other as CapsuleCollider2D)
+        CircleCollider2D circleCollider = GetComponent<CircleCollider2D>();
+        if (playerController != null && other is CapsuleCollider2D)
         {
-            if (canAttack)
-                StartCoroutine(Attack(playerController));
+            if (other.IsTouching(circleCollider))
+            {
+                if (canAttack)
+                    StartCoroutine(Attack(playerController));
+            }
+        }
+    }
+
+    // Trigger detection methods for playing sounds
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player") && other is CapsuleCollider2D)
+        {
+            isInRange = true;
+        }
+    }
+
+    // Trigger detection methods for stopping sounds
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player") && other is CapsuleCollider2D)
+        {
+            isInRange = false;
         }
     }
 
@@ -108,10 +132,10 @@ public class EnemyController : MonoBehaviour, IEnemy
 
     public virtual IEnumerator HandleDeath()
     {
-        // enemyAnimator.SetTrigger("isDead");
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
+    
     public virtual void PlayAttackSounds() { }
     public virtual void PlayFootstepSounds() { }
 }

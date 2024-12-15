@@ -112,6 +112,7 @@ public enum Sounds
     // BGM music
     lobbyBgm,
     levelBgm,
+    bossBgm,
 
     // UI SFX
     levelComplete,
@@ -155,6 +156,33 @@ public enum Sounds
     spitFoots1,
     spitFoots2,
     spitDie,
+
+    // Gunner Sounds
+    gunIntro,
+    gunLaserFire,
+    gunLaserLoop,
+    gunGrenadeLaunch,
+    gunGrenadeLand,
+    gunGrenadeCountdown1,
+    gunGrenadeExplosion,
+    gunGrenadeCountdown2,
+    gunGrenadeExplode,
+    gunLightingAttack,
+    gunShieldLoop,
+    gunShieldOn1,
+    gunShieldOn2,
+    gunShieldOff1,
+    gunShieldOff2,
+    gunFoots1,
+    gunFoots2,
+    gunFoots3,
+    gunFoots4,
+    gunElectricityLoop,
+    gunImpact1,
+    gunImpact2,
+    gunImpact3,
+    gunDeath1,
+    gunDeath2,
 
     // Button Sounds
     startBtn,

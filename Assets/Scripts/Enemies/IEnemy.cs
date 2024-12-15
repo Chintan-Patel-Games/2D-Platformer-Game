@@ -10,6 +10,7 @@ public interface IEnemy
     Sounds[] FootstepClips { get; set; }
     Sounds[] AttackClips { get; set; }
     bool CanAttack { get; }
+    bool IsInRange { get; }
 
     void EnemyPatrol();
     void MoveEnemy();

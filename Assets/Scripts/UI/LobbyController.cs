@@ -71,7 +71,13 @@ public class LobbyController : MonoBehaviour
     public void QuitGame()
     {
         SoundManager.Instance.Play(Sounds.quitBtn);
+
+        #if UNITY_WEBGL
+        // Show a native browser alert
+        Application.ExternalEval("alert('Thank you for playing! Please close the browser tab to exit.');");
+        #else
         Application.Quit();
+        #endif
     }
 
     public void SetSFXVolume(float volume)

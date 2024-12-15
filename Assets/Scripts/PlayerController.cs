@@ -252,7 +252,8 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         EnemyController enemyController = other.GetComponent<EnemyController>();
-        if (other.IsTouching(boxCollider2D) && enemyController != null)
+        PolygonCollider2D polygonCollider2D = other.GetComponent<PolygonCollider2D>();
+        if (other.IsTouching(boxCollider2D) && enemyController != null && polygonCollider2D != null)
         {
             enemyController.TakeDamage(staffDmg);
         }

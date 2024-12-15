@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 8575590981286505127}
   - component: {fileID: 7152084222004688303}
   - component: {fileID: 276683091911642625}
-  - component: {fileID: 692947704095750738}
+  - component: {fileID: 4784768946412353007}
   - component: {fileID: 3828448091649572822}
   - component: {fileID: 2176934142191325014}
+  - component: {fileID: 258726724829094731}
   m_Layer: 6
   m_Name: Chomper_Body
   m_TagString: Untagged
@@ -126,7 +127,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c95ef736b367e804caa30c80737fc222, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -135,10 +136,10 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &692947704095750738
-BoxCollider2D:
+--- !u!60 &4784768946412353007
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -146,7 +147,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1039291627046020421}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c95ef736b367e804caa30c80737fc222, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -169,7 +170,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.6}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.25}
@@ -179,9 +180,73 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.15}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.06666667, y: 0.05166667}
+      - {x: 0.13333334, y: 0.018333334}
+      - {x: 0.14666668, y: -0.008333334}
+      - {x: 0.27333334, y: -0.035}
+      - {x: 0.29333335, y: -0.035}
+      - {x: 0.37333333, y: -0.0016666667}
+      - {x: 0.33333334, y: 0.045}
+      - {x: 0.36, y: 0.11833334}
+      - {x: 0.44, y: 0.13166668}
+      - {x: 0.55333334, y: 0.19166668}
+      - {x: 0.61333334, y: 0.245}
+      - {x: 0.74666667, y: 0.39166668}
+      - {x: 0.7666667, y: 0.43833333}
+      - {x: 0.7666667, y: 0.53833336}
+      - {x: 0.74666667, y: 0.565}
+      - {x: 0.7266667, y: 0.565}
+      - {x: 0.64, y: 0.665}
+      - {x: 0.54, y: 0.75166667}
+      - {x: 0.5466667, y: 0.7916667}
+      - {x: 0.5133333, y: 0.83833337}
+      - {x: 0.50666666, y: 0.925}
+      - {x: 0.52000004, y: 1.085}
+      - {x: 0.4466667, y: 1.1583334}
+      - {x: 0.40666667, y: 1.1583334}
+      - {x: 0.36666667, y: 1.105}
+      - {x: 0.36, y: 1.005}
+      - {x: 0.39333335, y: 0.8916667}
+      - {x: 0.32, y: 0.85833335}
+      - {x: 0.27333334, y: 0.8183333}
+      - {x: 0.16, y: 0.7316667}
+      - {x: 0.1, y: 0.79833335}
+      - {x: 0.013333334, y: 0.83833337}
+      - {x: -0.006666667, y: 0.8316667}
+      - {x: 0.033333335, y: 0.69166666}
+      - {x: -0.02, y: 0.7716667}
+      - {x: -0.060000002, y: 0.7916667}
+      - {x: -0.15333334, y: 0.8983334}
+      - {x: -0.18, y: 0.88500005}
+      - {x: -0.17333333, y: 0.75166667}
+      - {x: -0.20666668, y: 0.83833337}
+      - {x: -0.24000001, y: 0.8183333}
+      - {x: -0.23333333, y: 0.7116667}
+      - {x: -0.24666667, y: 0.65833336}
+      - {x: -0.22666667, y: 0.6116667}
+      - {x: -0.21333334, y: 0.5516667}
+      - {x: -0.34, y: 0.43166667}
+      - {x: -0.3866667, y: 0.425}
+      - {x: -0.42666668, y: 0.49166667}
+      - {x: -0.48666668, y: 0.5516667}
+      - {x: -0.61333334, y: 0.605}
+      - {x: -0.74, y: 0.625}
+      - {x: -0.76, y: 0.58500004}
+      - {x: -0.76, y: 0.41833335}
+      - {x: -0.72, y: 0.33166668}
+      - {x: -0.61333334, y: 0.23166667}
+      - {x: -0.47333336, y: 0.17833334}
+      - {x: -0.49333334, y: 0.085}
+      - {x: -0.54, y: 0.031666666}
+      - {x: -0.53333336, y: 0.011666667}
+      - {x: -0.42666668, y: -0.035}
+      - {x: -0.39333335, y: -0.035}
+      - {x: -0.31333333, y: -0.0016666667}
+      - {x: -0.29333335, y: 0.085}
+      - {x: -0.10666667, y: 0.065000005}
+  m_UseDelaunayMesh: 0
 --- !u!58 &3828448091649572822
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -234,6 +299,41 @@ MonoBehaviour:
   pointA: {fileID: 5028286966282939547}
   pointB: {fileID: 3894888505927647131}
   chomperAnimator: {fileID: 7152084222004688303}
+--- !u!70 &258726724829094731
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039291627046020421}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.5}
+  m_Size: {x: 15, y: 5}
+  m_Direction: 1
 --- !u!1 &1813282506522039647
 GameObject:
   m_ObjectHideFlags: 0

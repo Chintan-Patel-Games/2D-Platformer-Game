@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Spitter : EnemyController
 {
-    [SerializeField] private Animator spitterAnimator; 
+    [SerializeField] private Animator spitterAnimator;
     private Sounds[] footstepClips;
     private Sounds[] attackClips;
 
@@ -45,32 +45,38 @@ public class Spitter : EnemyController
     // This method is called via animation events
     public override void PlayFootstepSounds()
     {
-        footstepClips = Enum.GetValues(typeof(Sounds))
-                        .Cast<Sounds>()
-                        .Where(sound => sound.ToString().StartsWith("spitFoots"))
-                        .ToArray();
-
-        if (footstepClips.Length > 0)
+        if (isInRange)
         {
-            // Randomize footstep sounds
-            Sounds clip = footstepClips[UnityEngine.Random.Range(0, footstepClips.Length)];
-            SoundManager.Instance.Play(clip);
+            footstepClips = Enum.GetValues(typeof(Sounds))
+                            .Cast<Sounds>()
+                            .Where(sound => sound.ToString().StartsWith("spitFoots"))
+                            .ToArray();
+
+            if (footstepClips.Length > 0)
+            {
+                // Randomize footstep sounds
+                Sounds clip = footstepClips[UnityEngine.Random.Range(0, footstepClips.Length)];
+                SoundManager.Instance.Play(clip);
+            }
         }
     }
 
     // This method is called via animation events
     public override void PlayAttackSounds()
     {
-        attackClips = Enum.GetValues(typeof(Sounds))
-                    .Cast<Sounds>()
-                    .Where(sound => sound.ToString().StartsWith("spitAttack"))
-                    .ToArray();
-
-        if (attackClips.Length > 0)
+        if (isInRange)
         {
-            // Randomize attack sounds
-            Sounds clip = attackClips[UnityEngine.Random.Range(0, attackClips.Length)];
-            SoundManager.Instance.Play(clip);
+            attackClips = Enum.GetValues(typeof(Sounds))
+                        .Cast<Sounds>()
+                        .Where(sound => sound.ToString().StartsWith("spitAttack"))
+                        .ToArray();
+
+            if (attackClips.Length > 0)
+            {
+                // Randomize attack sounds
+                Sounds clip = attackClips[UnityEngine.Random.Range(0, attackClips.Length)];
+                SoundManager.Instance.Play(clip);
+            }
         }
     }
 }
