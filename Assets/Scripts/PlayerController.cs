@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -16,33 +18,17 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Staff Damage")]
     [SerializeField] int staffDmg = 10;
 
-    [Tooltip("Reference to the AudioSource")]
-    [SerializeField] AudioSource audioSource;
-
-    [Tooltip("Array of jump sounds")]
-    [SerializeField] AudioClip jumpClip;
-
-    [Tooltip("Array of land sounds")]
-    [SerializeField] AudioClip landClip;
-
-    [Tooltip("Array of footstep sounds")]
-    [SerializeField] AudioClip[] footstepClips;
-
-    [Tooltip("Array of hurt sounds")]
-    [SerializeField] AudioClip[] hurtClips;
-
-    [Tooltip("Array of melee sounds")]
-    [SerializeField] AudioClip[] meleeClips;
-
-    [Tooltip("Array of bullet sounds")]
-    [SerializeField] AudioClip[] bulletClips;
-
     private Animator playerAnimator;
     private Rigidbody2D rb2d;
     private CapsuleCollider2D capsuleCollider2D;
     private BoxCollider2D boxCollider2D;
+    private Sounds jumpClip; // Jump sounds
+    private Sounds landClip; // Land sounds
+    private Sounds[] footstepClips; // Array of footstep sounds
+    private Sounds[] hurtClips; // Array of hurt sounds
+    private Sounds[] meleeClips; // Array of melee sounds
+    private Sounds[] bulletClips; // Array of bullet sounds
     private bool isFacingRight = true;
-    private bool isDead = false;
     private int lives = 3;
     public int Lives { get { return lives; } }
     private int keys = 0;
@@ -83,7 +69,7 @@ public class PlayerController : MonoBehaviour
     // Move Run Player position
     private void MovePos(float moveSpeed)
     {
-        if (playerAnimator.GetBool("isCrouching") == false && !isDead)
+        if (playerAnimator.GetBool("isCrouching") == false && playerAnimator.GetBool("isDead") == false)
         {
             Vector3 movePos = transform.position;
             movePos.x += moveSpeed * speed * Time.deltaTime;
@@ -97,22 +83,27 @@ public class PlayerController : MonoBehaviour
         {
             bulletParticle.Emit(1);
 
+            bulletClips = Enum.GetValues(typeof(Sounds))
+                            .Cast<Sounds>()
+                            .Where(sound => sound.ToString().StartsWith("playerRanged"))
+                            .ToArray();
+
             if (bulletClips.Length > 0)
             {
-                // Randomize melee sound for variety
-                AudioClip clip = bulletClips[Random.Range(0, bulletClips.Length)];
-                audioSource.PlayOneShot(clip);
+                // Randomize bullet shot sound for variety
+                Sounds clip = bulletClips[UnityEngine.Random.Range(0, bulletClips.Length)];
+                SoundManager.Instance.Play(clip);
             }
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 10f);
-            if (hit.collider != null)
-            {
-                EnemyController enemy = hit.collider.GetComponent<EnemyController>();
-                if (enemy != null)
-                {
-                    enemy.TakeDamage(1);
-                }
-            }
+            // RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 10f);
+            // if (hit.collider != null)
+            // {
+            //     EnemyController enemy = hit.collider.GetComponent<EnemyController>();
+            //     if (enemy != null)
+            //     {
+            //         enemy.TakeDamage(1);
+            //     }
+            // }
         }
     }
 
@@ -123,11 +114,16 @@ public class PlayerController : MonoBehaviour
         {
             playerAnimator.SetTrigger("staffAttack");
 
+            meleeClips = Enum.GetValues(typeof(Sounds))
+                            .Cast<Sounds>()
+                            .Where(sound => sound.ToString().StartsWith("playerMelee"))
+                            .ToArray();
+
             if (meleeClips.Length > 0)
             {
                 // Randomize melee sound for variety
-                AudioClip clip = meleeClips[Random.Range(0, meleeClips.Length)];
-                audioSource.PlayOneShot(clip);
+                Sounds clip = meleeClips[UnityEngine.Random.Range(0, meleeClips.Length)];
+                SoundManager.Instance.Play(clip);
             }
         }
 
@@ -153,7 +149,8 @@ public class PlayerController : MonoBehaviour
     {
         if (jump && playerAnimator.GetBool("isGrounded") == true)
         {
-            audioSource.PlayOneShot(jumpClip);
+            jumpClip = Sounds.playerjump;
+            SoundManager.Instance.Play(jumpClip);
             rb2d.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
         }
     }
@@ -185,6 +182,9 @@ public class PlayerController : MonoBehaviour
     {
         isFacingRight = facingRight;
         transform.localRotation = Quaternion.Euler(0f, facingRight ? 0f : 180f, 0f);
+
+        var main = bulletParticle.main;
+        main.startRotation = facingRight ? 0f : Mathf.PI;
     }
 
 
@@ -227,7 +227,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.otherCollider == capsuleCollider2D && other.collider.CompareTag("Platform") && playerAnimator.speed == 0)
         {
-            audioSource.PlayOneShot(landClip);
+            landClip = Sounds.playerLand;
+            SoundManager.Instance.Play(landClip);
             playerAnimator.speed = 1;
             playerAnimator.SetBool("isGrounded", true);
             playerAnimator.SetBool("isFalling", false);
@@ -248,33 +249,45 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.otherCollider == boxCollider2D && other.gameObject.GetComponent<EnemyController>())
+        EnemyController enemyController = other.GetComponent<EnemyController>();
+        PolygonCollider2D polygonCollider2D = other.GetComponent<PolygonCollider2D>();
+        if (other.IsTouching(boxCollider2D) && enemyController != null && polygonCollider2D != null)
         {
-            other.gameObject.GetComponent<EnemyController>().TakeDamage(staffDmg);
+            enemyController.TakeDamage(staffDmg);
         }
     }
 
     // This method is called via animation events
     public void PlayFootstep()
     {
+        footstepClips = Enum.GetValues(typeof(Sounds))
+                            .Cast<Sounds>()
+                            .Where(sound => sound.ToString().StartsWith("playerFoots"))
+                            .ToArray();
+
         if (footstepClips.Length > 0)
         {
             // Randomize footstep sound for variety
-            AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
-            audioSource.PlayOneShot(clip);
+            Sounds clip = footstepClips[UnityEngine.Random.Range(0, footstepClips.Length)];
+            SoundManager.Instance.Play(clip);
         }
     }
 
     // This method is called via animation events
     public void PlayerHurt()
     {
+        hurtClips = Enum.GetValues(typeof(Sounds))
+                            .Cast<Sounds>()
+                            .Where(sound => sound.ToString().StartsWith("playerHurt"))
+                            .ToArray();
+
         if (hurtClips.Length > 0)
         {
             // Randomize footstep sound for variety
-            AudioClip clip = hurtClips[Random.Range(0, hurtClips.Length)];
-            audioSource.PlayOneShot(clip);
+            Sounds clip = hurtClips[UnityEngine.Random.Range(0, hurtClips.Length)];
+            SoundManager.Instance.Play(clip);
         }
         transform.position = transform.localPosition;
     }
@@ -284,24 +297,6 @@ public class PlayerController : MonoBehaviour
     {
         playerAnimator.speed = 0;
         playerAnimator.SetBool("isFalling", true);
-    }
-
-    public void TakeLives()
-    {
-        lives--;
-        playerAnimator.SetTrigger("takeDamage");
-        uiController.UpdateLives();
-
-        if (lives <= 0)
-            PlayerDeath();
-    }
-
-    public void PlayerDeath()
-    {
-        isDead = true;
-        playerAnimator.SetBool("isDead", true);
-        this.enabled = false;
-        StartCoroutine(PlayerDiedUI());
     }
 
     private IEnumerator PlayerDiedUI()
@@ -316,6 +311,35 @@ public class PlayerController : MonoBehaviour
             keys++;
         else
             return;
-        uiController.UpdateKeys();
+        uiController.UpdateKeysUI(keys);
+    }
+
+    public void PickHealthOrb()
+    {
+        lives++;
+        if (lives > 3)
+        {
+            lives = 3;
+            return;
+        }
+        else
+            uiController.GainLife(lives);
+    }
+
+    public void TakeLives()
+    {
+        lives--;
+        playerAnimator.SetTrigger("takeDamage");
+        uiController.TakeLife(lives);
+
+        if (lives <= 0)
+            PlayerDeath();
+    }
+
+    public void PlayerDeath()
+    {
+        playerAnimator.SetBool("isDead", true);
+        this.enabled = false;
+        StartCoroutine(PlayerDiedUI());
     }
 }

@@ -6,11 +6,10 @@ public class SoundManager : MonoBehaviour
 {
     private static SoundManager soundManager;
     public static SoundManager Instance { get { return soundManager; } }
-    public AudioSource SFX;
-    public AudioSource BGM;
-    public SoundType[] Sounds;
-    public bool isMute = false;
-    public float Volume;
+    [SerializeField] public AudioSource SFX;
+    [SerializeField] public AudioSource BGM;
+    [SerializeField] SoundType[] Sounds;
+    [SerializeField] bool isMute = false;
 
     private void Awake()
     {
@@ -87,12 +86,16 @@ public class SoundManager : MonoBehaviour
     public void Mute(bool status)
     {
         isMute = status;
+        BGM.mute = status;
     }
 
-    public void SetVolume(float volume)
+    public void SetSFXVol(float volume)
     {
-        Volume = volume;
         SFX.volume = volume;
+    }
+
+    public void SetBGMVol(float volume)
+    {
         BGM.volume = volume;
     }
 }
@@ -106,11 +109,82 @@ public class SoundType
 
 public enum Sounds
 {
+    // BGM music
     lobbyBgm,
     levelBgm,
-    playerDied,
+    bossBgm,
+
+    // UI SFX
     levelComplete,
-    enemyDied,
+
+    // Player Sounds
+    playerMelee1,
+    playerMelee2,
+    playerMelee3,
+    playerMelee4,
+    playerRanged1,
+    playerRanged2,
+    playerRanged3,
+    playerRanged4,
+    playerFoots1,
+    playerFoots2,
+    playerFoots3,
+    playerFoots4,
+    playerHurt1,
+    playerHurt2,
+    playerHurt3,
+    playerHurt4,
+    playerHurt5,
+    playerHurt6,
+    playerjump,
+    playerLand,
+    playerDied,
+
+    // Chomper Sounds
+    chompAttack1,
+    chompAttack2,
+    chompAttack3,
+    chompAttack4,
+    chompFoots1,
+    chompFoots2,
+    chompDie,
+
+    // Spitter Sounds
+    spitAttack1,
+    spitAttack2,
+    spitAttack3,
+    spitFoots1,
+    spitFoots2,
+    spitDie,
+
+    // Gunner Sounds
+    gunIntro,
+    gunLaserFire,
+    gunLaserLoop,
+    gunGrenadeLaunch,
+    gunGrenadeLand,
+    gunGrenadeCountdown1,
+    gunGrenadeExplosion,
+    gunGrenadeCountdown2,
+    gunGrenadeExplode,
+    gunLightingAttack,
+    gunShieldLoop,
+    gunShieldOn1,
+    gunShieldOn2,
+    gunShieldOff1,
+    gunShieldOff2,
+    gunFoots1,
+    gunFoots2,
+    gunFoots3,
+    gunFoots4,
+    gunElectricityLoop,
+    gunImpact1,
+    gunImpact2,
+    gunImpact3,
+    gunDeath1,
+    gunDeath2,
+
+    // Button Sounds
     startBtn,
     confirmBtn,
     optionsBtn,

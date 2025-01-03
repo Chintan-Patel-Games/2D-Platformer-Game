@@ -41,20 +41,6 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    // public void MarkLevelComplete()
-    // {
-    //     Scene currentLevel = SceneManager.GetActiveScene();
-    //     SetLevelStatus(currentLevel.name, LevelStatus.Completed);
-    //     Debug.Log(currentLevel.name + " : " + LevelStatus.Completed);
-
-    //     int currentIndex = currentLevel.buildIndex;
-    //     if (currentIndex + 1 < System.Enum.GetValues(typeof(LevelList)).Length)
-    //     {
-    //         LevelList nextScene = (LevelList)(currentIndex + 1);
-    //         SetLevelStatus(nextScene.ToString(), LevelStatus.Unlocked);
-    //     }
-    // }
-
     public void MarkLevelComplete()
     {
         // Get the current scene

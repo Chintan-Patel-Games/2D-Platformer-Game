@@ -4,11 +4,11 @@ public class BulletController : MonoBehaviour
 {
     private void OnParticleCollision(GameObject other)
     {
-        Debug.Log($"Particle hit: {other.name}");
-        if (other.GetComponent<EnemyController>() != null)
+        EnemyController enemyController = other.GetComponent<EnemyController>();
+        PolygonCollider2D collider = other.GetComponent<PolygonCollider2D>();
+        if (enemyController != null && collider != null)
         {
-            other.GetComponent<EnemyController>().TakeDamage(10); // Damage enemy
-            Debug.Log("Enemy took damage!");
+            enemyController.TakeDamage(2); // Damage enemy
         }
     }
 }

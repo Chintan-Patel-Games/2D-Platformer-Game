@@ -11,8 +11,6 @@ public class LevelSelection : MonoBehaviour
     [SerializeField] string levelNo;
     [SerializeField] Color enabledColor;
     [SerializeField] Color disabledColor;
-    [SerializeField] GameObject levelSelectScreen;
-    [SerializeField] GameObject loadingScreen;
 
     private void Awake()
     {
@@ -67,22 +65,6 @@ public class LevelSelection : MonoBehaviour
     private void StartLevelLoading()
     {
         SoundManager.Instance.Play(Sounds.startBtn);
-        // levelSelectScreen.SetActive(false);
-        // loadingScreen.SetActive(true);
         SceneManager.LoadScene(levelNo);
-
-        // if (IsAnimationFinished(loadingScreen))
-        // {
-        //     SceneManager.LoadScene(levelNo);
-        // }
     }
-
-    // private bool IsAnimationFinished(GameObject loadingBar)
-    // {
-    //     Animator animator = loadingBar.GetComponentInChildren<Animator>();
-    //     AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0); // Get state info of layer 0
-
-    //     // Check if the current animation is the target animation and if it has finished
-    //     return stateInfo.normalizedTime >= 1.0f;
-    // }
 }
