@@ -38,13 +38,8 @@
 3. Press Play to start the adventure!
 
 ### Roadmap
-- [] Core mechanics: Movement, combat, and exploration.
-- [] Level design and environments.
-- [] Enemy AI and combat balancing.
-- [] Sound effects and background music.
-- [] UI implementation and final testing.
-
-### Contact
-- Developer: Chintan Patel
-- Email: chintanpatelit024@gmail.com
-- Game: https://chintan-patel-games.itch.io/the-explorer-ellen-adventures
+- Core mechanics: Movement, combat, and exploration.
+- Level design and environments.
+- Enemy AI and combat balancing.
+- Sound effects and background music.
+- UI implementation and final testing.
